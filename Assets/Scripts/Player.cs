@@ -7,6 +7,10 @@ using UnityEngine; // need this to use MonoBehaviour below
 // We will attach it to the player and will make that player behave like a player
 public class Player : MonoBehaviour
 {
+    // SerializeField will allow this private variable to appear in Unity so someone can change it to test out something, etc.
+    [SerializeField]
+    private float speed = 3.5f;
+
     // Start is called before the first frame update, when you start the game
     void Start()
     {
@@ -31,7 +35,7 @@ public class Player : MonoBehaviour
         // With distributive property in Unity, each of the Vector3's values get multiply by 5 so now we have: 
         // new Vector(5,0,0) * real time   which equals 5m/s since real time is in seconds
 
-        transform.Translate(Vector3.right * 5 * Time.deltaTime);
+        transform.Translate(Vector3.right * speed * Time.deltaTime);
         
     }
 }
