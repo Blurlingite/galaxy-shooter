@@ -24,6 +24,13 @@ public class Player : MonoBehaviour
     // This is a game loop and it runs typically about 60 frames/second and it runs every frame. This is where all our logic & userInput  will go
     void Update()
     {
+        // Get the horizontal axis so you can move the game object with the left/right arrows or the a/d keys
+        // To see how we get to the horizontal axis in Unity go to Edit > Project Settings > Input Manager > Axes > Horizontal
+        // That is what we are doing here. "Input" calls the Input Manager. "GetAxis" is what we use to get an axis by it's name (capitalization is important)
+        // Now we have the horizontal axis and when we add this to the formula below by multiplying by this variable, we can now move the game object using the left/right arrows or a/d keys
+        float horizontalInput = Input.GetAxis("Horizontal");
+
+        float verticalInput = Input.GetAxis("Vertical");
         // access the object you want to move, which is our Player, which we are already on
         // 1 unit in Unity is 1 meter in the real world, so "new Vector3.right" makes the Player move 60 meters per second (the Update() makes has a speed of 60 frames per second, so multiply by 1 meter to get 60 meters per second) which is too fast
         // We multiply by Time.deltaTime so that we are not frame dependent but minutes/seconds dependent
@@ -34,8 +41,12 @@ public class Player : MonoBehaviour
         // Vector3.right * 5 * Time.deltaTime === new Vector3(1,0,0) * 5 * real time
         // With distributive property in Unity, each of the Vector3's values get multiply by 5 so now we have: 
         // new Vector(5,0,0) * real time   which equals 5m/s since real time is in seconds
+        // We multiply by our horizontalInput variable which has the horizontal axis so we can move the game object using the left/right arrows or a/d keys. The reason this works is b/c when you hit the left arrow, horizontalInput becomes -1 and when you hit the right arrow it becomes 1. The -1 will make you move in a "negative" direction and the 1 will make you move in a positive direction, since we are multiplying each number in our Vector3(1,0,0) by horizontalInput
+        // Ex. Vector3(1,0,0) when hitting left arrow becomes Vector3(-1,0,0)
+        // If you want to see the horizontal axis number return -1 or 1 in Unity, temporairily change the horizontalInput variable to public and put it at the top of the class. Then check the game object's script section for the horizontal axis and see it change when you run the game and hit the arrow keys
+        transform.Translate(Vector3.right * horizontalInput * speed * Time.deltaTime);
 
-        transform.Translate(Vector3.right * speed * Time.deltaTime);
+       
         
     }
 }
