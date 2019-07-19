@@ -8,6 +8,7 @@ using UnityEngine; // need this to use MonoBehaviour below
 public class Player : MonoBehaviour
 {
     // SerializeField will allow this private variable to appear in Unity so someone can change it to test out something, etc.
+    // This variable how fast the game object will move
     [SerializeField]
     private float speed = 3.5f;
 
@@ -30,7 +31,9 @@ public class Player : MonoBehaviour
         // Now we have the horizontal axis and when we add this to the formula below by multiplying by this variable, we can now move the game object using the left/right arrows or a/d keys
         float horizontalInput = Input.GetAxis("Horizontal");
 
+        // Get vertical axis in Unity
         float verticalInput = Input.GetAxis("Vertical");
+
         // access the object you want to move, which is our Player, which we are already on
         // 1 unit in Unity is 1 meter in the real world, so "new Vector3.right" makes the Player move 60 meters per second (the Update() makes has a speed of 60 frames per second, so multiply by 1 meter to get 60 meters per second) which is too fast
         // We multiply by Time.deltaTime so that we are not frame dependent but minutes/seconds dependent
@@ -44,9 +47,23 @@ public class Player : MonoBehaviour
         // We multiply by our horizontalInput variable which has the horizontal axis so we can move the game object using the left/right arrows or a/d keys. The reason this works is b/c when you hit the left arrow, horizontalInput becomes -1 and when you hit the right arrow it becomes 1. The -1 will make you move in a "negative" direction and the 1 will make you move in a positive direction, since we are multiplying each number in our Vector3(1,0,0) by horizontalInput
         // Ex. Vector3(1,0,0) when hitting left arrow becomes Vector3(-1,0,0)
         // If you want to see the horizontal axis number return -1 or 1 in Unity, temporairily change the horizontalInput variable to public and put it at the top of the class. Then check the game object's script section for the horizontal axis and see it change when you run the game and hit the arrow keys
-        transform.Translate(Vector3.right * horizontalInput * speed * Time.deltaTime);
+        // The code for this comment was commented out b/c I wrote a more optimal way of doing the same thing below
+        // transform.Translate(Vector3.right * horizontalInput * speed * Time.deltaTime);
 
-       
+        // This will control the vertical movement and let us move the game object up and down with the up and down arrow keys. Notice instead of Vector3.right, we used Vector3.up, since this is vertical movement and not horizontal
+        // The code for this comment was commented out b/c I wrote a more optimal way of doing the same thing below
+        // transform.Translate(Vector3.up * verticalInput * speed * Time.deltaTime);
+
+        // This variable controls our direction of travel
+        // This Vector3 variable uses the game object's horizontal position as the x value and the vertical position as the y value in this Vector3(x,y,z) to accomplish what the 2 commented out lines above did: Allow us to move the game object both horizontally and vertically using the arrow keys once we plug in the variable into the transform formula.
+        // As you press the left/right arrows, horizontalInput's value changes causing the game object to move to the left or right.
+        // As you press the up/down arrows, verticalInput's value changes causing the game object to move up or down.
+        // "speed" controls how fast the game object moves and when we combine it with the Vector3 that controls the game object's horizontal and vertical axes, it will apply that speed when you press the arrow keys
+
+        Vector3 direction = new Vector3(horizontalInput,verticalInput,0);
+
+        // plug in the "direction" variable for cleaner looking code (we could've just put what is assigned to the "direction" variable into this formula but this way is easier to look at)
+        transform.Translate(direction * speed * Time.deltaTime);
         
     }
 }
