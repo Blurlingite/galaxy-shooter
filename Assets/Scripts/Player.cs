@@ -5,34 +5,36 @@ using UnityEngine; // need this to use MonoBehaviour below
 
 // We extend from MonoBehaviour, a Unity specific term. It allows us to drag and drop scripts or behaviors onto game objects to control them in Unity
 // We will attach it to the player and will make that player behave like a player
-public class Player : MonoBehaviour
-{
+public class Player : MonoBehaviour {
     // SerializeField will allow this private variable to appear in Unity so someone can change it to test out something, etc.
     // This variable controls how fast the game object will move
     [SerializeField]
     private float speed = 3.5f;
 
     // Start is called before the first frame update, when you start the game
-    void Start()
-    {
+    void Start () {
         // take the current position = new position(0,0,0) (x,y,z)
         // How we access the Player object's position? Unity is  component based so in the Unity editor, click on the Player object and you will see that we need to access the "Transform" section (component) to get the Player object's position. Inside Transform, you will see "Position" so we access the position using transform.position
         // Vector3 defines positioning of game objects. We are assigning the position (transform.position) a new position in (x,y,z) format
-        transform.position = new Vector3(0,0,0);
+        transform.position = new Vector3 (0, 0, 0);
     }
 
     // Update is called once per frame
     // This is a game loop and it runs typically about 60 frames/second and it runs every frame. This is where all our logic & userInput  will go
-    void Update()
-    {
+    void Update () {
+        // Player's movement
+        CalculateMovement ();
+    }
+
+    void CalculateMovement () {
         // Get the horizontal axis so you can move the game object with the left/right arrows or the a/d keys
         // To see how we get to the horizontal axis in Unity go to Edit > Project Settings > Input Manager > Axes > Horizontal
         // That is what we are doing here. "Input" calls the Input Manager. "GetAxis" is what we use to get an axis by it's name (capitalization is important)
         // Now we have the horizontal axis and when we add this to the formula below by multiplying by this variable, we can now move the game object using the left/right arrows or a/d keys
-        float horizontalInput = Input.GetAxis("Horizontal");
+        float horizontalInput = Input.GetAxis ("Horizontal");
 
         // Get vertical axis in Unity
-        float verticalInput = Input.GetAxis("Vertical");
+        float verticalInput = Input.GetAxis ("Vertical");
 
         // access the object you want to move, which is our Player, which we are already on
         // 1 unit in Unity is 1 meter in the real world, so "new Vector3.right" makes the Player move 60 meters per second (the Update() makes has a speed of 60 frames per second, so multiply by 1 meter to get 60 meters per second) which is too fast
@@ -60,48 +62,50 @@ public class Player : MonoBehaviour
         // As you press the up/down arrows, verticalInput's value changes causing the game object to move up or down.
         // "speed" controls how fast the game object moves and when we combine it with the Vector3 that controls the game object's horizontal and vertical axes, it will apply that speed when you press the arrow keys
 
-        Vector3 direction = new Vector3(horizontalInput,verticalInput,0);
+        Vector3 direction = new Vector3 (horizontalInput, verticalInput, 0);
 
         // plug in the "direction" variable for cleaner looking code (we could've just put what is assigned to the "direction" variable into this formula but this way is easier to look at)
-        transform.Translate(direction * speed * Time.deltaTime);
+        transform.Translate (direction * speed * Time.deltaTime);
 
+        // PLAYER BOUNDS - Areas the Player object can't go
+        // If the position on y is greater than 0,
+        // y position = 0
 
-// PLAYER BOUNDS - Areas the Player object can't go
-    // If the position on y is greater than 0,
-    // y position = 0
+        // else if position on the y is less than -3.8f
+        // y position = -3.8f
 
-    // else if position on the y is less than -3.8f
-    // y position = -3.8f
-    
-    
+        // The if statement means that the player object will not move up if it will go past y position 0
+        // We accessed the "position" component after the transform component with "transform.position". We set it to a new Vector3 and we want the x value to stay the same so we pass in "transform.position.x" for the first value. We set the y and z values to 0 (You could also keep the current z value with "transform.position.z" if you wanted to)
 
-    // The if statement means that the player object will not move up if it will go past y position 0
-    // We accessed the "position" component after the transform component with "transform.position". We set it to a new Vector3 and we want the x value to stay the same so we pass in "transform.position.x" for the first value. We set the y and z values to 0 (You could also keep the current z value with "transform.position.z" if you wanted to)
+        // The else if statement means that the player object will not move down if it will go below y position -3.8f. NOTE: that we only need "f" b/c this is a decimal (floats) and there is no BigDecimal like how there is in Java
 
+        // THIS CODE CAN BE RE-WRITTEN AS SHOWN BELOW TO DO THE SAME THING
+        // if (transform.position.y >= 0) {
+        //     transform.position = new Vector3 (transform.position.x, 0, 0);
+        // } else if (transform.position.y <= -3.8f) {
+        //     transform.position = new Vector3 (transform.position.x, -3.8f, 0);
+        // }
 
-     // The else if statement means that the player object will not move down if it will go below y position -3.8f. NOTE: that we only need "f" b/c this is a decimal (floats) and there is no BigDecimal like how there is in Java
-     if(transform.position.y >= 0){
-         transform.position = new Vector3(transform.position.x,0,0);
-     }else if(transform.position.y <= -3.8f){
-         transform.position = new Vector3(transform.position.x, -3.8f,0);
-     }
+        // Mathf.Clamp() allows you to select a property and give it a min and max so that the object this script is attached to cannot go below the low bound you set and cannot go higher than the high bound you set.
+        // Params: 
+        // 1) The property to clamp (transform.position.y -- The 'y' position of the object)
+        // 2) The low bound (-3.8f in this case)
+        // 3) The high bound (0 in this case)
+        transform.position = new Vector3 (transform.position.x, Mathf.Clamp (transform.position.y, -3.8f, 0), 0);
 
+        // MAKING PLAYER WARP TO OPPOSITE SIDE WHEN GOING TO THE LEFT OR RIGHT EDGES. (This is called wrapping)
 
-// MAKING PLAYER WARP TO OPPOSITE SIDE WHEN GOING TO THE LEFT OR RIGHT EDGES. (This is called wrapping)
+        // if player on x > 11.3
+        // x position = -11.3
 
-    // if player on x > 11.3
-    // x position = -11.3
+        // else if player on x < -11.3
+        // x position = 11.3
 
-    // else if player on x < -11.3
-    // x position = 11.3
-
-    if(transform.position.x > 11.3f){
-        transform.position = new Vector3(-11.3f,transform.position.y,0);
-    }else if(transform.position.x < -11.3f){
-        transform.position = new Vector3(11.3f,transform.position.y,0);
+        if (transform.position.x > 11.3f) {
+            transform.position = new Vector3 (-11.3f, transform.position.y, 0);
+        } else if (transform.position.x < -11.3f) {
+            transform.position = new Vector3 (11.3f, transform.position.y, 0);
+        }
     }
 
-
-        
-    }
 }
