@@ -8,7 +8,7 @@ using UnityEngine; // need this to use MonoBehaviour below
 public class Player : MonoBehaviour
 {
     // SerializeField will allow this private variable to appear in Unity so someone can change it to test out something, etc.
-    // This variable how fast the game object will move
+    // This variable controls how fast the game object will move
     [SerializeField]
     private float speed = 3.5f;
 
@@ -64,6 +64,44 @@ public class Player : MonoBehaviour
 
         // plug in the "direction" variable for cleaner looking code (we could've just put what is assigned to the "direction" variable into this formula but this way is easier to look at)
         transform.Translate(direction * speed * Time.deltaTime);
+
+
+// PLAYER BOUNDS - Areas the Player object can't go
+    // If the position on y is greater than 0,
+    // y position = 0
+
+    // else if position on the y is less than -3.8f
+    // y position = -3.8f
+    
+    
+
+    // The if statement means that the player object will not move up if it will go past y position 0
+    // We accessed the "position" component after the transform component with "transform.position". We set it to a new Vector3 and we want the x value to stay the same so we pass in "transform.position.x" for the first value. We set the y and z values to 0 (You could also keep the current z value with "transform.position.z" if you wanted to)
+
+
+     // The else if statement means that the player object will not move down if it will go below y position -3.8f. NOTE: that we only need "f" b/c this is a decimal (floats) and there is no BigDecimal like how there is in Java
+     if(transform.position.y >= 0){
+         transform.position = new Vector3(transform.position.x,0,0);
+     }else if(transform.position.y <= -3.8f){
+         transform.position = new Vector3(transform.position.x, -3.8f,0);
+     }
+
+
+// MAKING PLAYER WARP TO OPPOSITE SIDE WHEN GOING TO THE LEFT OR RIGHT EDGES. (This is called wrapping)
+
+    // if player on x > 11.3
+    // x position = -11.3
+
+    // else if player on x < -11.3
+    // x position = 11.3
+
+    if(transform.position.x > 11.3f){
+        transform.position = new Vector3(-11.3f,transform.position.y,0);
+    }else if(transform.position.x < -11.3f){
+        transform.position = new Vector3(11.3f,transform.position.y,0);
+    }
+
+
         
     }
 }
