@@ -14,8 +14,28 @@ public class Player : MonoBehaviour
   private float _speed = 3.5f;
 
   // This variable is private b/c we don't plan to swap out this GameObject with another (like say a stronger version of a laser or a laser with a different animation,etc.). If the value won't change, the variable should be private so that other objects in the game can't change the value
+
+  // In Unity sometimes you can’t write code without first updating the components in the Unity editor. For example this variable holds a laser by first assigning the Laser Prefab to the Player object so that when we press the space key, a laser will spawn. 
+
+  // In Text Editor:
+
+  // We wrote an if statement that said “if we press the space key, spawn a laser”
+
+  // We declared a GameObject called laser. 
+
+  // Then in the Unity Editor, we clicked on the Player object, then dragged the Laser Prefab into the Player object’s “Player Script” component.
+
+  // Then we went back to the text editor and wrote code to instantiate the laser in the if statement (since we just dragged and dropped the Laser Prefab, when we run this code and then press the space key in game mode, it will instantiate a copy of the Laser Prefab (the laser to fire)
+  // But we couldn't do any of this is if this _laserPrefab varibale wasn't here, b/c then we wouldn't have a field on the Player object to drag and drop the laser prefab onto
   [SerializeField]
   private GameObject _laserPrefab;
+
+  // This variable determines how much time must pass before you can use the laser again (you shouldn't be able to spam it). In this case its 0.5 seconds
+
+  [SerializeField]
+  private float _fireRate = 0.15f;
+  // We need another varibale to check againt _fireRate so we know that 0.15 seconds have actually passed
+  private float _canFire = -1f;
 
   // Start is called before the first frame update, when you start the game
   void Start()
@@ -41,10 +61,17 @@ public class Player : MonoBehaviour
     // "KeyCode" lets us know we are searching for a key. It is an event handler that handles keys on the keyboard. "Space" means the Space key
     // //Instantiate lets us create the laser object by passing it in as the first argument (_laserPrefab). The second arguement is the position the laser will spawn, which we want as the player's position so we pass in "transform.position". The 3rd arguement "Quaternion" is the object's rotation using euler angles (which you can see in the Unity Inspector of the player object. There is a component (a field) called "Rotation. Those x,y and z degrees have to do with the x,y and z euler angles). Since we don't need to make the laser rotate, we can just leave it as it's default using "Quaternion.identity" The "identity" part means "default rotation" and you will use this most of the time, but here is a link to read up on euler angles:
     //https://docs.unity3d.com/ScriptReference/Quaternion-eulerAngles.html
-    if (Input.GetKeyDown(KeyCode.Space))
+
+    // the part after the "&&" helps to restrict the player from spamming the laser. It is a "cool down" or "delay" effect.
+    // Time.time is how long the game has been running and _canFire is our variable we are using to check against that time. So when the game starts, Time.time = 1 second and _canFire = -1 second, so since Time.time is greater than _canFire, we can fire a laser when pressing the SPACE bar. However, in the FireLaser() we say _canFire = Time.time + _fireRate. So now canFire is 1.15 seconds (since __fireRate is set to 0.15f above). Now when we go to press the SPACE bar again, Time.time changes from 1 second to 1.1 seconds. Since 1.1 is not greater to _canFire's new value of 1.15 seconds, the if statement will not execute, and you can't fire a laser until Time.time is 1.15 or higher
+
+    // Also, the if statement was originally in the FireLaser() method but it's better to put it here before we call FireLaser() otherwise we waste resources calling the FireLaser() method before the cool down effect wares off. It also looks better to the eyes
+
+    if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
     {
-      Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+      FireLaser();
     }
+
   }
 
   void CalculateMovement()
@@ -87,6 +114,7 @@ public class Player : MonoBehaviour
     Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
 
     // plug in the "direction" variable for cleaner looking code (we could've just put what is assigned to the "direction" variable into this formula but this way is easier to look at)
+    // This allows the player to move and what speed they move
     transform.Translate(direction * _speed * Time.deltaTime);
 
     // PLAYER BOUNDS - Areas the Player object can't go
@@ -131,6 +159,15 @@ public class Player : MonoBehaviour
     {
       transform.position = new Vector3(11.3f, transform.position.y, 0);
     }
+  }
+
+  void FireLaser()
+  {
+    _canFire = Time.time + _fireRate;
+    // We want the laser to spawn 0.8 above the player's y position. Since position is a Vector3 we can't simply add 0.8f to transform.position. 
+    // What we can do is add a new Vector3 that has a y value of 0.8f and x & z values of 0
+    Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
+
   }
 
 }
