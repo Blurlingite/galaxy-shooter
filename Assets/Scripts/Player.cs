@@ -13,6 +13,11 @@ public class Player : MonoBehaviour
   [SerializeField]
   private float _speed = 3.5f;
 
+  [SerializeField]
+  // amount of lives the player has
+  // We don't want anything (other than the player) to change this value so we added a method below called "Damage"
+  private int _lives = 3;
+
   // This variable is private b/c we don't plan to swap out this GameObject with another (like say a stronger version of a laser or a laser with a different animation,etc.). If the value won't change, the variable should be private so that other objects in the game can't change the value
 
   // In Unity sometimes you can’t write code without first updating the components in the Unity editor. For example this variable holds a laser by first assigning the Laser Prefab to the Player object so that when we press the space key, a laser will spawn. 
@@ -168,6 +173,18 @@ public class Player : MonoBehaviour
     // What we can do is add a new Vector3 that has a y value of 0.8f and x & z values of 0
     Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
 
+  }
+
+  // method in C# are private by default (by just saying "void") but we want the enemy to do damage to the player so we want the enemy to access this methos, so we made it public
+  public void Damage()
+  {
+    _lives--; // reduce amount of lives by 1
+
+    // checked if player died and if yes, destroy the player
+    if (_lives < 1)
+    {
+      Destroy(this.gameObject);
+    }
   }
 
 }

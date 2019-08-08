@@ -5,7 +5,7 @@ using UnityEngine;
 public class Laser : MonoBehaviour
 {
 
-
+  [SerializeField]
   //speed the laser travels (8 meter/second)
   // It is good practice to make the variable a float and not an int, in case another developer wants to change this value to a decimal for testing purposes
   private float _speed = 8.0f;
