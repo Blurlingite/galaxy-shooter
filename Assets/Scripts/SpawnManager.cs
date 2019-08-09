@@ -9,7 +9,9 @@ public class SpawnManager : MonoBehaviour
   // Right after this, you will go back to Unity and drap & drop the object into this variable's field that should have appeared (in this case the Enemy prefab object)
   private GameObject _enemyPrefab;
 
-
+  [SerializeField]
+  // hold container that will hold spawned enemies so hierarchy in Unity isn't cluttered with too many spawns
+  private GameObject _enemyContainer;
   // Start is called before the first frame update
   void Start()
   {
@@ -40,7 +42,13 @@ public class SpawnManager : MonoBehaviour
       // variable to hold a randomly generated position on the x axis (within a certain range)
       Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
       // Instantiate an enemy object by passing in the object (that we dragged and dropped from Unity and that got stored in the GameObject variable in this script, _enemyPrefab), the position (posToSpawn), and a Quaternion (but we don't care about those now so use Quaternion.identity as a default)
-      Instantiate(_enemyPrefab, posToSpawn, Quaternion.identity);
+      // we assigned the Instantiate() to a GameObject variable so we can store the enemy object that spawns from it into the _enemyContainer variable above
+      GameObject newEnemy = Instantiate(_enemyPrefab, posToSpawn, Quaternion.identity);
+
+      // STORE SPAWNED ENEMY IN ENEMY CONTAINER 
+      // *********************************************
+      // We assign the newEnemy to the _enemyContainer's transform. We are giving the newly spawned enemy a parent (The Enemy Container) so it gets stored in the Enemy Container so we say "newEnemy.transform.parent". We access the parent from the object's transform and parent is of type Transform. This is why we can't assign it to _enemyContainer directly we have to assign it to _enemyContainer's Transform with _enemyContainer.transform
+      newEnemy.transform.parent = _enemyContainer.transform;
 
       // yield wait for 5 seconds
       // "WaitForSeconds" will take in the amount of seconds this function will wait before performing the next line of code. You must use the "new" keyword also
