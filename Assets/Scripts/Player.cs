@@ -42,6 +42,9 @@ public class Player : MonoBehaviour
   // We need another varibale to check againt _fireRate so we know that 0.15 seconds have actually passed
   private float _canFire = -1f;
 
+
+  private SpawnManager _spawnManager;
+
   // Start is called before the first frame update, when you start the game
   void Start()
   {
@@ -49,6 +52,19 @@ public class Player : MonoBehaviour
     // How we access the Player object's position? Unity is  component based so in the Unity editor, click on the Player object and you will see that we need to access the "Transform" section (component) to get the Player object's position. Inside Transform, you will see "Position" so we access the position using transform.position
     // Vector3 defines positioning of game objects. We are assigning the position (transform.position) a new position in (x,y,z) format
     transform.position = new Vector3(0, 0, 0);
+
+    // First find the SpawnManager GameObject, then use GetComponent to get the SpawnManager component
+    // We can use GameObject.Find() to pass in the name (as it appears in Unity's Inspector)
+    // Once we find the object, we use GetComponent<>() and pass in the type of component we are looking for (which is SpawnManager, since our variable _spawnManager is of type SpawnManager)
+    // Now we have access to the SpawnManager C# script from within this C# script (the Player's)
+    // This is how we communicate between scripts when we don't have an object variable (like Collider in the Enemey C# script).
+    _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+
+    // Remember to check if null for debugging purposes in case we could not find the Spawn Manager object
+    if (_spawnManager == null)
+    {
+      Debug.LogError("The Spawn Manager is NULL!");
+    }
   }
 
   // Update is called once per frame
@@ -180,9 +196,13 @@ public class Player : MonoBehaviour
   {
     _lives--; // reduce amount of lives by 1
 
-    // checked if player died and if yes, destroy the player
+    // checked if player died and if yes, stop the Spawn Manager &destroy the player
     if (_lives < 1)
     {
+      // Communicate with Spawn Manager to tell it to stop spawning when the Player object is destroyed (when the player dies)
+      _spawnManager.onPlayerDeath();
+
+      // Destroys the player (and this C# script, but the Player & script will regenerate on a new game)
       Destroy(this.gameObject);
     }
   }

@@ -13,6 +13,9 @@ public class SpawnManager : MonoBehaviour
   // hold container that will hold spawned enemies so hierarchy in Unity isn't cluttered with too many spawns
   private GameObject _enemyContainer;
   // Start is called before the first frame update
+
+  // used to stop Spawn Manager from spawning in certain events like the player dying
+  private bool _stopSpawning = false;
   void Start()
   {
     // We use "StartCoroutine" to start the coroutine that spawns the enemies, which we wrote below (SpawnRoutine). We put this in the Start() b/c we want enemies to spawn as soon as the game starts running
@@ -28,7 +31,7 @@ public class SpawnManager : MonoBehaviour
   // spawn gameobjects every 5 secs
   // Create a coroutine of type IEnumerator -- Yield events (we get to use the "yield" keyword, which allows us to wait for the amount of seconds you pass in)
 
-  // while loop (infinite loop). We want an infinite while loop b/c we have access to the "yield" keyword in this coroutine so we can pause this loop. And we want this loop to keep running so we can keep spawning enemies
+  // while loop will keep spawning enemies as long as _stopSpawning is false. )We will change _stopSpawning to true when the player dies so then the Spawn Manager knows to stop spawning
   IEnumerator SpawnRoutine()
   {
     // this will wait for 1 frame and then run the next line in this function
@@ -37,7 +40,7 @@ public class SpawnManager : MonoBehaviour
 
 
     // Instantiate Enemy prefab
-    while (true)
+    while (_stopSpawning == false)
     {
       // variable to hold a randomly generated position on the x axis (within a certain range)
       Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
@@ -58,6 +61,13 @@ public class SpawnManager : MonoBehaviour
 
     // WE WILL NEVER GET HERE B/C THE WHILE LOOP IS INFINITE
 
+  }
+
+  // Will be used by the Player script to stop the SpawnManager script code that spawns enemies and will be used when the Player script is about to destroy the Player object (when the player dies by losing all their lives)
+  // We do this b/c it is bad to modify a script's variable directly (_stopSpawning), so we use this function instead to change the variable indirectly (meaning outside this script w/o using a reference to the variable in this script)
+  public void onPlayerDeath()
+  {
+    _stopSpawning = true;
   }
 
 }
