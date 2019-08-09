@@ -187,7 +187,7 @@ public class Player : MonoBehaviour
     _canFire = Time.time + _fireRate;
     // We want the laser to spawn 0.8 above the player's y position. Since position is a Vector3 we can't simply add 0.8f to transform.position. 
     // What we can do is add a new Vector3 that has a y value of 0.8f and x & z values of 0
-    Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
+    Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
 
   }
 

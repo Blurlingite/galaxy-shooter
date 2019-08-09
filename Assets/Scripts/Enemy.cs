@@ -32,7 +32,7 @@ public class Enemy : MonoBehaviour
   }
 
   // "Collider other" will be the object that collided with the Enemy object
-  private void OnTriggerEnter(Collider other)
+  private void OnTriggerEnter2D(Collider2D other)
   {
     // This line will print to the console, what object collided with the enemy
     // Debug.Log("Hit " + other.transform.name);
