@@ -25,6 +25,14 @@ public class Laser : MonoBehaviour
 
     if (transform.position.y > 8.0f)
     {
+      // check if laser has a parent and if it does destroy the parent too
+
+      if (transform.parent != null)
+      {
+        // Destroy() will destroy the gameobject you pass in. We want to destroy the parent object. First we get the parent with transform.parent and then we get the actual parent object with .gameObject. 
+        Destroy(transform.parent.gameObject);
+      }
+
       // Destroy() will destroy the gameobject you pass in. Since we want to destroy the game object this script is attached to, we can say this.gameObject, b/c "gameObject" is a reserved word for the game object this script is attached to. So there's no need for a GameObject variable.
       // We could also omit the "this" part but this way is more clear
       // Also, as your intellisense tells you, you can pass in a second argument, the amount of time until the object will be destroyed. If you want the game object destroyed in 5 seconds regardless of where it is, pass in 5.0f

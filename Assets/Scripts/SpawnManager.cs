@@ -9,17 +9,24 @@ public class SpawnManager : MonoBehaviour
   // Right after this, you will go back to Unity and drap & drop the object into this variable's field that should have appeared (in this case the Enemy prefab object)
   private GameObject _enemyPrefab;
 
+  // Since the power up destroys itself when it leaves the screen we don't need to give it a parent like we did with the Enemy object (since the Enemy will not be destroyed unless the player destroys it)
+  [SerializeField]
+  private GameObject _tripleShotPowerupPrefab;
+
   [SerializeField]
   // hold container that will hold spawned enemies so hierarchy in Unity isn't cluttered with too many spawns
   private GameObject _enemyContainer;
   // Start is called before the first frame update
+
+
 
   // used to stop Spawn Manager from spawning in certain events like the player dying
   private bool _stopSpawning = false;
   void Start()
   {
     // We use "StartCoroutine" to start the coroutine that spawns the enemies, which we wrote below (SpawnRoutine). We put this in the Start() b/c we want enemies to spawn as soon as the game starts running
-    StartCoroutine(SpawnRoutine());
+    StartCoroutine(SpawnEnemyRoutine());
+    StartCoroutine(SpawnPowerupRoutine());
   }
 
   // Update is called once per frame
@@ -32,7 +39,7 @@ public class SpawnManager : MonoBehaviour
   // Create a coroutine of type IEnumerator -- Yield events (we get to use the "yield" keyword, which allows us to wait for the amount of seconds you pass in)
 
   // while loop will keep spawning enemies as long as _stopSpawning is false. )We will change _stopSpawning to true when the player dies so then the Spawn Manager knows to stop spawning
-  IEnumerator SpawnRoutine()
+  IEnumerator SpawnEnemyRoutine()
   {
     // this will wait for 1 frame and then run the next line in this function
     // yield return null;
@@ -61,6 +68,23 @@ public class SpawnManager : MonoBehaviour
 
     // WE WILL NEVER GET HERE B/C THE WHILE LOOP IS INFINITE
 
+  }
+
+  IEnumerator SpawnPowerupRoutine()
+  {
+
+    while (_stopSpawning == false)
+    {
+      // spawn a power up on a random x position with a y position y of 7. Randomize the amount of seconds it will spawn from 3-7 seconds
+
+      float randomSeconds = Random.Range(3.0f, 7.0f);
+
+      yield return new WaitForSeconds(randomSeconds);
+
+      Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
+
+      Instantiate(_tripleShotPowerupPrefab, posToSpawn, Quaternion.identity);
+    }
   }
 
   // Will be used by the Player script to stop the SpawnManager script code that spawns enemies and will be used when the Player script is about to destroy the Player object (when the player dies by losing all their lives)
