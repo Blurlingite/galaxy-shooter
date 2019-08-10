@@ -35,6 +35,9 @@ public class Player : MonoBehaviour
   [SerializeField]
   private GameObject _laserPrefab;
 
+  [SerializeField]
+  private GameObject _tripleShotPrefab;
+
   // This variable determines how much time must pass before you can use the laser again (you shouldn't be able to spam it). In this case its 0.5 seconds
 
   [SerializeField]
@@ -46,6 +49,12 @@ public class Player : MonoBehaviour
   private SpawnManager _spawnManager;
 
   // Start is called before the first frame update, when you start the game
+
+  // variable for isTripleShotActive. When you collect the triple shot power up from it's sprite, the sprite will change this variable to true so you can use the power up
+  [SerializeField]
+  // you can put a [SerializeField] on this variable ti simulate what would happen if you collected the power up b/c you can change it's value in the Inspector to "true"
+  private bool _isTripleShotActive = false;
+
   void Start()
   {
     // take the current position = new position(0,0,0) (x,y,z)
@@ -53,6 +62,7 @@ public class Player : MonoBehaviour
     // Vector3 defines positioning of game objects. We are assigning the position (transform.position) a new position in (x,y,z) format
     transform.position = new Vector3(0, 0, 0);
 
+    // We must find the Spawn Manager using this script b/c when the game starts, the Player object will be rendered immediately
     // First find the SpawnManager GameObject, then use GetComponent to get the SpawnManager component
     // We can use GameObject.Find() to pass in the name (as it appears in Unity's Inspector)
     // Once we find the object, we use GetComponent<>() and pass in the type of component we are looking for (which is SpawnManager, since our variable _spawnManager is of type SpawnManager)
@@ -184,11 +194,45 @@ public class Player : MonoBehaviour
 
   void FireLaser()
   {
+    // _canFire holds how much time you must wait before another laser can be shot
     _canFire = Time.time + _fireRate;
-    // We want the laser to spawn 0.8 above the player's y position. Since position is a Vector3 we can't simply add 0.8f to transform.position. 
-    // What we can do is add a new Vector3 that has a y value of 0.8f and x & z values of 0
-    Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
 
+
+    // Fire 3 lasers (if triple shot prefab is active). If not, fire 1 laser
+    if (_isTripleShotActive == true)
+    {
+      Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
+
+    }
+    else
+    {
+
+      // We want the laser to spawn 1.05 above the player's y position. Since position is a Vector3 we can't simply add 0.8f to transform.position. 
+      // What we can do is add a new Vector3 that has a y value of 0.8f and x & z values of 0
+      Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
+    }
+
+
+
+  }
+
+  public void TripleShotActive()
+  {
+    // allow us to use power up
+    _isTripleShotActive = true;
+
+    //start the power down coroutine
+    StartCoroutine(TripleShotPowerDownRoutine());
+  }
+
+  // set up a power down coroutine for triple shot
+  IEnumerator TripleShotPowerDownRoutine()
+  {
+    // wait 5 secs
+    yield return new WaitForSeconds(5.0f);
+
+    // Set to false so you can't use triple shot until you get another one
+    _isTripleShotActive = false;
   }
 
   // method in C# are private by default (by just saying "void") but we want the enemy to do damage to the player so we want the enemy to access this methos, so we made it public
