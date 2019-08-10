@@ -6,6 +6,11 @@ public class Powerup : MonoBehaviour
 {
   [SerializeField]
   private float _speed = 3.0f;
+  [SerializeField]
+  // 0 = Triple Shot Powerup
+  // 1 = Speed Powerup
+  // 2 = Shield Powerup
+  private float powerupID;
 
 
   // Update is called once per frame
@@ -34,8 +39,27 @@ public class Powerup : MonoBehaviour
       }
       else
       {
-        // enable triple shot
-        player.TripleShotActive();
+        switch (powerupID)
+        {
+          // if powerupID = 0 enable triple shot
+          case 0:
+            player.TripleShotActive();
+            // if 1 enable speed powerup
+            break;
+          case 1:
+            player.SpeedBoostActive();
+            // Debug.Log("SPEED IS KEY");
+            // if 2 enable shield powerup
+            break;
+          case 2:
+            Debug.Log("SHIELDS UP");
+            break;
+          default:
+            Debug.Log("Default Value");
+            break;
+
+        }
+
       }
 
       // destroy the powerup giving the illusion that we collected it

@@ -13,6 +13,10 @@ public class Player : MonoBehaviour
   [SerializeField]
   private float _speed = 3.5f;
 
+  // we don't want to change the speed variable above by re-assigning so we have this multipler
+  [SerializeField]
+  private float _speedMultiplier = 2;
+
   [SerializeField]
   // amount of lives the player has
   // We don't want anything (other than the player) to change this value so we added a method below called "Damage"
@@ -54,6 +58,9 @@ public class Player : MonoBehaviour
   [SerializeField]
   // you can put a [SerializeField] on this variable ti simulate what would happen if you collected the power up b/c you can change it's value in the Inspector to "true"
   private bool _isTripleShotActive = false;
+
+  [SerializeField]
+  private bool _isSpeedBoostActive = false;
 
   void Start()
   {
@@ -146,7 +153,12 @@ public class Player : MonoBehaviour
 
     // plug in the "direction" variable for cleaner looking code (we could've just put what is assigned to the "direction" variable into this formula but this way is easier to look at)
     // This allows the player to move and what speed they move
+
+
     transform.Translate(direction * _speed * Time.deltaTime);
+
+
+
 
     // PLAYER BOUNDS - Areas the Player object can't go
     // If the position on y is greater than 0,
@@ -249,6 +261,24 @@ public class Player : MonoBehaviour
       // Destroys the player (and this C# script, but the Player & script will regenerate on a new game)
       Destroy(this.gameObject);
     }
+  }
+
+
+  public void SpeedBoostActive()
+  {
+    _isSpeedBoostActive = true;
+    // change speed to be speed * multiplier
+    _speed *= _speedMultiplier;
+    StartCoroutine(SpeedBoostPowerDownRoutine());
+  }
+
+  IEnumerator SpeedBoostPowerDownRoutine()
+  {
+    yield return new WaitForSeconds(5.0f);
+
+    _isSpeedBoostActive = false;
+    // revert speed back by dividing by multiplier
+    _speed /= _speedMultiplier;
   }
 
 }
