@@ -6,10 +6,12 @@ public class Enemy : MonoBehaviour
 {
 
   float _speed = 4.0f;
+  // variable for Player to be assigned in Start() so we don't have to get the Player more than once
+  private Player p;
   // Start is called before the first frame update
   void Start()
   {
-
+    p = GameObject.Find("Player").GetComponent<Player>();
   }
 
   // Update is called once per frame
@@ -64,7 +66,27 @@ public class Enemy : MonoBehaviour
     if (other.CompareTag("Laser"))
     {
       Destroy(other.gameObject);
+      // add 10 to player score
+      // We can't use other to find the Player object b/c "other" in this if statement is the Laser (as shown by other.CompareTag("Laser"))
+
+      // Using this commented out code uses too much resources. GetComponent<>() is an expensive call, and what if we have 50 or more enemies? That means 50 GetComponent calls. So instead, we declare a global Player varaible, and the assign it the Player in void Start() so we'll only use 1 call to get the Player and we can use this reference as many times as we want
+      // Player p = GameObject.Find("Player").GetComponent<Player>();
+
+      // Checking if the player is null here is better than doing this i the Start() method b/c Start() only gets called once when the game starts, so if the Player became null after that (by dying) we would get an error here
+      if (p != null)
+      {
+        // 5-12 range we need to pass in 5 and 13 b/c ints don't include the max
+        int randomPoints = Random.Range(5, 13);
+        p.AddScore(randomPoints);
+      }
+      else
+      {
+        Debug.Log("Player is null cannot add score");
+      }
+
       Destroy(this.gameObject);
+
+
     }
   }
 

@@ -3,6 +3,7 @@ using System.Collections; // lets you write C# code
 using System.Collections.Generic; //lets you write C# code
 using UnityEngine; // need this to use MonoBehaviour below
 
+
 // We extend from MonoBehaviour, a Unity specific term. It allows us to drag and drop scripts or behaviors onto game objects to control them in Unity
 // We will attach it to the player and will make that player behave like a player
 public class Player : MonoBehaviour
@@ -21,6 +22,13 @@ public class Player : MonoBehaviour
   // amount of lives the player has
   // We don't want anything (other than the player) to change this value so we added a method below called "Damage"
   private int _lives = 3;
+
+  [SerializeField]
+  // holds the player's score
+  private int _score;
+
+  [SerializeField]
+  private UIManager _uiManager;
 
   // This variable is private b/c we don't plan to swap out this GameObject with another (like say a stronger version of a laser or a laser with a different animation,etc.). If the value won't change, the variable should be private so that other objects in the game can't change the value
 
@@ -70,6 +78,9 @@ public class Player : MonoBehaviour
 
   void Start()
   {
+    // The UI Manager component (the UIManager C# script we attached) is attached to the Canvas object so we Find the Canvas and then get the UIManager script in GetComponent<>()
+    // The component has a space in it but the field "Script" does not so it will work b/c we look at "Script" when we use GetComponent<>()
+    _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
     // take the current position = new position(0,0,0) (x,y,z)
     // How we access the Player object's position? Unity is  component based so in the Unity editor, click on the Player object and you will see that we need to access the "Transform" section (component) to get the Player object's position. Inside Transform, you will see "Position" so we access the position using transform.position
     // Vector3 defines positioning of game objects. We are assigning the position (transform.position) a new position in (x,y,z) format
@@ -87,6 +98,11 @@ public class Player : MonoBehaviour
     if (_spawnManager == null)
     {
       Debug.LogError("The Spawn Manager is NULL!");
+    }
+
+    if (_uiManager == null)
+    {
+      Debug.LogError("The UI Manager is NULL!");
     }
   }
 
@@ -270,6 +286,8 @@ public class Player : MonoBehaviour
 
 
     _lives--; // reduce amount of lives by 1
+              // pass in amount of lives after decrementing it above to change the sprite showing
+    _uiManager.UpdateLives(_lives);
 
     // checked if player died and if yes, stop the Spawn Manager &destroy the player
     if (_lives < 1)
@@ -307,5 +325,16 @@ public class Player : MonoBehaviour
     isShieldsActive = true;
   }
 
+  // method to add points to the score 
+  // Communicate with UI Manager to show the score on the screen
 
+  // has a parameter to accept varying number of points to add to score. Give the player a random number of points from 5-12 for each destroyed enemy
+  public void AddScore(int points)
+  {
+    // add points
+    _score += points;
+    // show updated score on screen using UIManager (don't pass in points b/c that is not a running total, just a random assignment of points)
+    _uiManager.UpdateScore(_score);
+
+  }
 }
