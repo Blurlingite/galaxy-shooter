@@ -61,6 +61,7 @@ public class Player : MonoBehaviour
   [SerializeField]
   private GameObject shieldVisualizer;
 
+
   private SpawnManager _spawnManager;
 
   // Start is called before the first frame update, when you start the game
@@ -294,6 +295,8 @@ public class Player : MonoBehaviour
     {
       // Communicate with Spawn Manager to tell it to stop spawning when the Player object is destroyed (when the player dies)
       _spawnManager.onPlayerDeath();
+
+
 
       // Destroys the player (and this C# script, but the Player & script will regenerate on a new game)
       Destroy(this.gameObject);
