@@ -52,7 +52,7 @@ public class Powerup : MonoBehaviour
             // if 2 enable shield powerup
             break;
           case 2:
-            Debug.Log("SHIELDS UP");
+            player.ShieldsActive();
             break;
           default:
             Debug.Log("Default Value");

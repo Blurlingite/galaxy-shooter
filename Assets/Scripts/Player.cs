@@ -49,6 +49,9 @@ public class Player : MonoBehaviour
   // We need another varibale to check againt _fireRate so we know that 0.15 seconds have actually passed
   private float _canFire = -1f;
 
+  // give Player a child object to turn on or off the shield animation that moves with the player
+  [SerializeField]
+  private GameObject shieldVisualizer;
 
   private SpawnManager _spawnManager;
 
@@ -61,6 +64,9 @@ public class Player : MonoBehaviour
 
   [SerializeField]
   private bool _isSpeedBoostActive = false;
+
+  [SerializeField]
+  private bool isShieldsActive = false;
 
   void Start()
   {
@@ -250,6 +256,19 @@ public class Player : MonoBehaviour
   // method in C# are private by default (by just saying "void") but we want the enemy to do damage to the player so we want the enemy to access this methos, so we made it public
   public void Damage()
   {
+    // if shields are active
+    // deactivate shields b/c they've been hit and then return form the function (to exit the void function)
+    if (isShieldsActive == true)
+    {
+      // turn off shield animation that follows the player
+
+      shieldVisualizer.SetActive(false);
+      isShieldsActive = false;
+      return;
+    }
+
+
+
     _lives--; // reduce amount of lives by 1
 
     // checked if player died and if yes, stop the Spawn Manager &destroy the player
@@ -280,5 +299,13 @@ public class Player : MonoBehaviour
     // revert speed back by dividing by multiplier
     _speed /= _speedMultiplier;
   }
+
+  public void ShieldsActive()
+  {
+    // turn on the shield animation that follows the player
+    shieldVisualizer.SetActive(true);
+    isShieldsActive = true;
+  }
+
 
 }
