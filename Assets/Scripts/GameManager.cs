@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     if (Input.GetKeyDown(KeyCode.R) && _isGameOver == true)
     {
       // we can reload the scene by it's number or it's name. We named our game "Game" as you can see in the "Scenes" folder in Unity or by it's index (which you can see by adding the Scene to your Build Settings in Unity)
-      SceneManager.LoadScene(0); // Current Game Scene
+      SceneManager.LoadScene(1); // Current Game Scene
     }
   }
 
