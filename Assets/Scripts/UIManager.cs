@@ -21,12 +21,24 @@ public class UIManager : MonoBehaviour
   [SerializeField]
   private Text _gameOverText;
 
+  [SerializeField]
+  private Text _restartText;
+
+  private GameManager _gameManager;
+
   void Start()
   {
     // assign text component to the handle so when game starts, there is a score that can be updated
     _scoreText.text = "Score: " + 0;
     // set this object to false to not display "Game Over" at the start of the game. Since _gameOverText is not a GameObject type, we must put .gameObject first
     _gameOverText.gameObject.SetActive(false);
+
+    _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
+
+    if (_gameManager == null)
+    {
+      Debug.LogError("Game Manager is NULL");
+    }
   }
 
   // Update is called once per frame
@@ -41,13 +53,23 @@ public class UIManager : MonoBehaviour
     // access display image sprite and give it a new one based on currentLives
     _LivesImg.sprite = _liveSprites[currentLives];
 
-    // when out of lives, display game over text by setting it's object active. This code should NOT go in the Player script b/c displaying UI things is the UI Manager's job
+    // when out of lives, GameOverSequence() will display game over text by setting it's object active. This code should NOT go in the Player script b/c displaying UI things is the UI Manager's job
     if (currentLives < 1)
     {
-      _gameOverText.gameObject.SetActive(true);
-
-      StartCoroutine(GameOverFlicker());
+      GameOverSequence();
     }
+  }
+
+  // all code for a Game Over is in here
+  void GameOverSequence()
+  {
+    // notify Game Manager that the game is over so it can trigger a restart when player presses the "R" key
+    _gameManager.GameOver();
+    _gameOverText.gameObject.SetActive(true);
+    // Show restart text
+    _restartText.gameObject.SetActive(true);
+
+    StartCoroutine(GameOverFlicker());
   }
 
   // causes the flickering Game Over effect
