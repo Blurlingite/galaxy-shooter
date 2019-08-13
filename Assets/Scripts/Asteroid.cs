@@ -10,11 +10,19 @@ public class Asteroid : MonoBehaviour
   [SerializeField]
   private GameObject _explosionPrefab;
 
+  [SerializeField]
+  private SpawnManager _spawnManager;
+
   // Start is called before the first frame update
 
   void Start()
   {
+    _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
 
+    if (_spawnManager == null)
+    {
+      Debug.LogError("Spawn Manager is NULL ::Asteroid.cs::Start()");
+    }
   }
 
   // Update is called once per frame
@@ -40,6 +48,8 @@ public class Asteroid : MonoBehaviour
       Destroy(other.gameObject);
 
       // set a custom delay of the destruction of asteroid to 0.15 secs so there isn't  a breif pause between the explosiion animation and the destruction of the asteroid
+      // Start spawning enemies using Spawn Manager
+      _spawnManager.StartSpawning();
       Destroy(this.gameObject, 0.15f);
     }
 

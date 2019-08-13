@@ -61,6 +61,9 @@ public class Player : MonoBehaviour
   [SerializeField]
   private GameObject shieldVisualizer;
 
+  // decalre 2 variables at once by separating the names with a comma
+  [SerializeField]
+  private GameObject _leftEngine, _rightEngine;
 
   private SpawnManager _spawnManager;
 
@@ -105,6 +108,10 @@ public class Player : MonoBehaviour
     {
       Debug.LogError("The UI Manager is NULL!");
     }
+
+    _rightEngine.SetActive(false);
+    _leftEngine.SetActive(false);
+
   }
 
   // Update is called once per frame
@@ -288,6 +295,19 @@ public class Player : MonoBehaviour
 
     _lives--; // reduce amount of lives by 1
               // pass in amount of lives after decrementing it above to change the sprite showing
+
+
+    // if lives == 2 enable right engine
+    // if 1, enable left engine
+    if (_lives == 2)
+    {
+      _rightEngine.SetActive(true);
+    }
+    else if (_lives == 1)
+    {
+      _leftEngine.SetActive(true);
+    }
+
     _uiManager.UpdateLives(_lives);
 
     // checked if player died and if yes, stop the Spawn Manager &destroy the player

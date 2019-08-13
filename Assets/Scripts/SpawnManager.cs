@@ -18,19 +18,17 @@ public class SpawnManager : MonoBehaviour
   [SerializeField]
   // hold container that will hold spawned enemies so hierarchy in Unity isn't cluttered with too many spawns
   private GameObject _enemyContainer;
-  // Start is called before the first frame update
-
-
 
   // used to stop Spawn Manager from spawning in certain events like the player dying
   private bool _stopSpawning = false;
-  void Start()
+
+
+  public void StartSpawning()
   {
     // We use "StartCoroutine" to start the coroutine that spawns the enemies, which we wrote below (SpawnRoutine). We put this in the Start() b/c we want enemies to spawn as soon as the game starts running
     StartCoroutine(SpawnEnemyRoutine());
     StartCoroutine(SpawnPowerupRoutine());
   }
-
   // Update is called once per frame
   void Update()
   {
@@ -43,8 +41,8 @@ public class SpawnManager : MonoBehaviour
   // while loop will keep spawning enemies as long as _stopSpawning is false. )We will change _stopSpawning to true when the player dies so then the Spawn Manager knows to stop spawning
   IEnumerator SpawnEnemyRoutine()
   {
-    // this will wait for 1 frame and then run the next line in this function
-    // yield return null;
+    // wait 3 secs before spawning so it doesn't start so abrubtly
+    yield return new WaitForSeconds(3.0f);
 
 
 
@@ -74,6 +72,8 @@ public class SpawnManager : MonoBehaviour
 
   IEnumerator SpawnPowerupRoutine()
   {
+    // wait 3 secs before spawning so it doesn't start so abrubtly
+    yield return new WaitForSeconds(3.0f);
     while (_stopSpawning == false)
     {
       Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
