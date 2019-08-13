@@ -12,6 +12,18 @@ public class Powerup : MonoBehaviour
   // 2 = Shield Powerup
   private float powerupID;
 
+  private AudioSource _audioSource;
+
+  void Start()
+  {
+    _audioSource = GameObject.Find("Audio_Manager").transform.GetChild(1).GetComponent<AudioSource>();
+
+    if (_audioSource == null)
+    {
+      Debug.LogError("Audio Source on Powerup is NULL");
+    }
+
+  }
 
   // Update is called once per frame
   void Update()
@@ -61,7 +73,7 @@ public class Powerup : MonoBehaviour
         }
 
       }
-
+      _audioSource.Play();
       // destroy the powerup giving the illusion that we collected it
       Destroy(this.gameObject);
     }
