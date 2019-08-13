@@ -67,6 +67,13 @@ public class Player : MonoBehaviour
 
   private SpawnManager _spawnManager;
 
+  [SerializeField]
+  // assign a laser sound to this variable
+  private AudioClip _laserSoundClip;
+
+  // use the AudioClip variable above and use this variable to play it. Don't assign it in Unity's Inspector. Use GetComponent() to find the Audio Source component so you can null check. Also, if Unity were to crash you'd have to reassign those values in the Inspector. You can test this after assigning it by clicking the play button in Unity and checking if the Audio Source component on the Player changes from "None" to the audio clip
+  private AudioSource _audioSource;
+
   // Start is called before the first frame update, when you start the game
 
   // variable for isTripleShotActive. When you collect the triple shot power up from it's sprite, the sprite will change this variable to true so you can use the power up
@@ -85,6 +92,25 @@ public class Player : MonoBehaviour
     // The UI Manager component (the UIManager C# script we attached) is attached to the Canvas object so we Find the Canvas and then get the UIManager script in GetComponent<>()
     // The component has a space in it but the field "Script" does not so it will work b/c we look at "Script" when we use GetComponent<>()
     _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+
+    if (_uiManager == null)
+    {
+      Debug.LogError("The UI Manager is NULL!");
+    }
+
+    _audioSource = GetComponent<AudioSource>();
+
+    // if Audio Source is null console an error message
+    // else, assign the audioclip to the AudioSource variable using the AudioClip variable
+    if (_audioSource == null)
+    {
+      Debug.LogError("Audio Source on the player is NULL");
+    }
+    else
+    {
+      // assign the clip to the audio source
+      _audioSource.clip = _laserSoundClip;
+    }
     // take the current position = new position(0,0,0) (x,y,z)
     // How we access the Player object's position? Unity is  component based so in the Unity editor, click on the Player object and you will see that we need to access the "Transform" section (component) to get the Player object's position. Inside Transform, you will see "Position" so we access the position using transform.position
     // Vector3 defines positioning of game objects. We are assigning the position (transform.position) a new position in (x,y,z) format
@@ -104,10 +130,8 @@ public class Player : MonoBehaviour
       Debug.LogError("The Spawn Manager is NULL!");
     }
 
-    if (_uiManager == null)
-    {
-      Debug.LogError("The UI Manager is NULL!");
-    }
+
+
 
     _rightEngine.SetActive(false);
     _leftEngine.SetActive(false);
@@ -254,7 +278,8 @@ public class Player : MonoBehaviour
       Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
     }
 
-
+    // play laser audio clip. Make sure that "Play On Awake in the Audio Source component is unchecked, or else it'll play as soon as the game starts
+    _audioSource.Play();
 
   }
 
