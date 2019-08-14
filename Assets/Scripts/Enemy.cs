@@ -7,12 +7,17 @@ public class Enemy : MonoBehaviour
 
   float _speed = 4.0f;
   // variable for Player to be assigned in Start() so we don't have to get the Player more than once
+  [SerializeField]
+  private GameObject _laserPrefab;
   private Player _p;
   // Start is called before the first frame update
   [SerializeField]
   private Animator _anim;
 
   private AudioSource _audioSource;
+
+  private float _fireRate = 3.0f;
+  private float _canFire = -1;
 
   void Start()
   {
@@ -43,6 +48,30 @@ public class Enemy : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
+    CalculateMovement();
+
+    if (Time.time > _canFire)
+    {
+      _fireRate = Random.Range(3f, 7f);
+      _canFire = Time.time + _fireRate;
+
+      GameObject enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+
+      Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+
+      for (int i = 0; i < lasers.Length; i++)
+      {
+        lasers[i].AssignEnemyLaser();
+      }
+
+    }
+
+
+
+  }
+
+  void CalculateMovement()
+  {
     // move down 4m/s
     transform.Translate(Vector3.down * _speed * Time.deltaTime);
 
@@ -56,7 +85,6 @@ public class Enemy : MonoBehaviour
       float randomX = Random.Range(-8f, 8f);
       transform.position = new Vector3(randomX, 7, 0);
     }
-
   }
 
   // "Collider other" will be the object that collided with the Enemy object
