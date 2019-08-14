@@ -86,6 +86,8 @@ public class Enemy : MonoBehaviour
       _anim.SetTrigger("OnEnemyDeath");
       _speed = 0; // set enemy speed to 0 so the Enemy's Collider won't hit the player while the enemy is moving while being destroyed
       _audioSource.Play();
+      // destroy the collider so that when bump into the enemy, only 1 exlposion (the sound of the explosion)happens and to prevent player from losing more than 1 life
+      Destroy(GetComponent<Collider2D>());
       Destroy(gameObject, 2.5f); // destroy this enemy object 2.5 secs after being hit
     }
 
@@ -116,6 +118,9 @@ public class Enemy : MonoBehaviour
       _anim.SetTrigger("OnEnemyDeath");
       _speed = 0;
       _audioSource.Play();
+
+      // destroy the collider so that when you fire more than 1 laser at the enemy, only 1 exlposion (the sound of the explosion)happens
+      Destroy(GetComponent<Collider2D>());
       Destroy(this.gameObject, 2.5f);
 
     }
