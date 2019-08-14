@@ -89,4 +89,21 @@ public class Laser : MonoBehaviour
     _isEnemyLaser = true;
   }
 
+  // check if laser collided with player (enemy's laser) and damage the player if yes
+  void OnTriggerEnter2D(Collider2D other)
+  {
+    if (other.gameObject.CompareTag("Player") && _isEnemyLaser == true)
+    {
+      Player player = other.GetComponent<Player>();
+
+      if (player != null)
+      {
+        player.Damage();
+      }
+
+
+    }
+
+  }
+
 }

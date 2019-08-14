@@ -16,6 +16,14 @@ public class GameManager : MonoBehaviour
       // we can reload the scene by it's number or it's name. We named our game "Game" as you can see in the "Scenes" folder in Unity or by it's index (which you can see by adding the Scene to your Build Settings in Unity)
       SceneManager.LoadScene(1); // Current Game Scene
     }
+
+    // if ESCAPE key is pressed, quit the application
+    if (Input.GetKeyDown(KeyCode.LeftShift))
+    {
+      // This won't work in the editor, so you have to make a new build to test this out. It should allow you to exit fullscreen
+      // There is a way to quit it in the editor but is pointless if you are going to upload your game somewhere anyways (b/c it won't work on where you upload to)
+      Application.Quit();
+    }
   }
 
   public void GameOver()
