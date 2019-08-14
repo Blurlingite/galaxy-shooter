@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PixelRect:
     serializedVersion: 2
-    x: 0
-    y: 47
+    x: -1
+    y: 46
     width: 1680
     height: 914
   m_ShowMode: 4
@@ -115,7 +115,7 @@ MonoBehaviour:
   m_MinSize: {x: 709, y: 492}
   m_MaxSize: {x: 18004, y: 14042}
   vertical: 0
-  controlID: 68
+  controlID: 57
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_MinSize: {x: 201, y: 442}
   m_MaxSize: {x: 4001, y: 8042}
   vertical: 1
-  controlID: 69
+  controlID: 58
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -220,7 +220,7 @@ MonoBehaviour:
   m_MinSize: {x: 232, y: 492}
   m_MaxSize: {x: 10002, y: 14042}
   vertical: 1
-  controlID: 90
+  controlID: 108
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -320,8 +320,8 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 0
-    y: 457
+    x: -1
+    y: 456
     width: 934
     height: 463
   m_ViewDataDictionary: {fileID: 0}
@@ -407,8 +407,8 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 0
-    y: 77
+    x: -1
+    y: 76
     width: 934
     height: 359
   m_ViewDataDictionary: {fileID: 0}
@@ -422,9 +422,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -5.977655, y: 5.4326315, z: 0}
+    m_Target: {x: -0.485, y: -2.415, z: 0}
     speed: 2
-    m_Value: {x: -5.977655, y: 5.4326315, z: 0}
+    m_Value: {x: -0.485, y: -2.415, z: 0}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -458,9 +458,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 1.0456372
+    m_Target: 8.083957
     speed: 2
-    m_Value: 1.0456372
+    m_Value: 8.083957
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -660,31 +660,31 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 935
-    y: 77
+    x: 934
+    y: 76
     width: 336
     height: 359
   m_ViewDataDictionary: {fileID: 0}
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: f0320000
-      m_LastClickedID: 13040
-      m_ExpandedIDs: 82fbffff
+      m_SelectedIDs: 8c3d0000
+      m_LastClickedID: 0
+      m_ExpandedIDs: 6625ffffee44fffffc9bffff949cfffff49cffff549dffffac9dffff049effff7a9effffda9effff82fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
+        m_Name: Player_1
+        m_OriginalName: Player_1
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 0
+        m_UserData: -27134
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 11
+        m_OriginalEventType: 0
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 10}
       m_SearchString: 
@@ -715,8 +715,8 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 935
-    y: 457
+    x: 934
+    y: 456
     width: 336
     height: 463
   m_ViewDataDictionary: {fileID: 0}
@@ -733,7 +733,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts
+    - Assets/Scenes
   m_ViewMode: 0
   m_StartGridSize: 64
   m_LastFolders: []
@@ -745,7 +745,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: ac310000
     m_LastClickedID: 12716
-    m_ExpandedIDs: 000000007438000076380000783800007a3800007c380000
+    m_ExpandedIDs: 000000007438000076380000783800007a380000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -773,7 +773,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: ffffffff00000000743800007638000078380000a4380000
+    m_ExpandedIDs: ffffffff0000000074380000a0380000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -850,8 +850,8 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1273
-    y: 77
+    x: 1272
+    y: 76
     width: 406
     height: 843
   m_ViewDataDictionary: {fileID: 0}
