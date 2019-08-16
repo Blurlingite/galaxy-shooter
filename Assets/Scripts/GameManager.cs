@@ -9,8 +9,21 @@ public class GameManager : MonoBehaviour {
 
   public bool isCoopMode = false;
   // private SpawnManager _spawnManager;
-
+  private Scene currentScene;
   private void Start () {
+    // check which Scene we're in by index, and if we are in Coop Mode change bool to true
+
+    currentScene = SceneManager.GetActiveScene ();
+
+    if (currentScene == null) {
+      Debug.LogError ("Scene is NULL ::GameManager::Start()");
+    }
+
+    int sceneIndex = currentScene.buildIndex;
+    if (sceneIndex == 2) {
+      isCoopMode = true;
+    }
+
     // _spawnManager = GameObject.Find ("Spawn_Manager").GetComponent<SpawnManager> ();
 
   }

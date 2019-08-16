@@ -909,6 +909,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isGameOver: 0
+  isCoopMode: 0
 --- !u!4 &1323669929
 Transform:
   m_ObjectHideFlags: 0
@@ -1884,7 +1885,7 @@ GameObject:
   - component: {fileID: 1943210034}
   - component: {fileID: 1943210035}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Player_1
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1915,6 +1916,7 @@ MonoBehaviour:
   shieldVisualizer: {fileID: 598027052}
   _leftEngine: {fileID: 1838522158}
   _rightEngine: {fileID: 67917074}
+  _gameManager: {fileID: 0}
   _laserSoundClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   _isTripleShotActive: 0
   _isSpeedBoostActive: 0

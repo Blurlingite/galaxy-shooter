@@ -109,19 +109,6 @@ public class Player : MonoBehaviour {
       _audioSource.clip = _laserSoundClip;
     }
 
-    // We must find the Spawn Manager using this script b/c when the game starts, the Player object will be rendered immediately
-    // First find the SpawnManager GameObject, then use GetComponent to get the SpawnManager component
-    // We can use GameObject.Find() to pass in the name (as it appears in Unity's Inspector)
-    // Once we find the object, we use GetComponent<>() and pass in the type of component we are looking for (which is SpawnManager, since our variable _spawnManager is of type SpawnManager)
-    // Now we have access to the SpawnManager C# script from within this C# script (the Player's)
-    // This is how we communicate between scripts when we don't have an object variable (like Collider in the Enemey C# script).
-    _spawnManager = GameObject.Find ("Spawn_Manager").GetComponent<SpawnManager> ();
-
-    // Remember to check if null for debugging purposes in case we could not find the Spawn Manager object
-    if (_spawnManager == null) {
-      Debug.LogError ("The Spawn Manager is NULL! ::Player.cs::Start()");
-    }
-
     _gameManager = GameObject.Find ("Game_Manager").GetComponent<GameManager> ();
 
     if (_gameManager == null) {
@@ -134,6 +121,27 @@ public class Player : MonoBehaviour {
       // How we access the Player object's position? Unity is  component based so in the Unity editor, click on the Player object and you will see that we need to access the "Transform" section (component) to get the Player object's position. Inside Transform, you will see "Position" so we access the position using transform.position
       // Vector3 defines positioning of game objects. We are assigning the position (transform.position) a new position in (x,y,z) format
       transform.position = new Vector3 (0, 0, 0);
+    } else {
+
+      if (gameObject.name == "Player_1") {
+        transform.position = new Vector3 (-4.48f, -1.77f, 0f);
+      } else if (gameObject.name == "Player_2") {
+        transform.position = new Vector3 (4.48f, -1.77f, 0f);
+      }
+
+    }
+
+    // We must find the Spawn Manager using this script b/c when the game starts, the Player object will be rendered immediately
+    // First find the SpawnManager GameObject, then use GetComponent to get the SpawnManager component
+    // We can use GameObject.Find() to pass in the name (as it appears in Unity's Inspector)
+    // Once we find the object, we use GetComponent<>() and pass in the type of component we are looking for (which is SpawnManager, since our variable _spawnManager is of type SpawnManager)
+    // Now we have access to the SpawnManager C# script from within this C# script (the Player's)
+    // This is how we communicate between scripts when we don't have an object variable (like Collider in the Enemey C# script).
+    _spawnManager = GameObject.Find ("Spawn_Manager").GetComponent<SpawnManager> ();
+
+    // Remember to check if null for debugging purposes in case we could not find the Spawn Manager object
+    if (_spawnManager == null) {
+      Debug.LogError ("The Spawn Manager is NULL! ::Player.cs::Start()");
     }
 
     _rightEngine.SetActive (false);
