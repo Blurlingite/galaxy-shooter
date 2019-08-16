@@ -160,7 +160,7 @@ public class Player : MonoBehaviour {
       CalculateP2Movement ();
     }
 
-    // if I hit the SPACE key,
+    // if I hit the SPACE key and I'm Player 1,
     // Spawn a gameobject (the laser)
 
     // We access the InputManager with "Input" b/c we need user input to shoot a laser
@@ -174,7 +174,9 @@ public class Player : MonoBehaviour {
 
     // Also, the if statement was originally in the FireLaser() method but it's better to put it here before we call FireLaser() otherwise we waste resources calling the FireLaser() method before the cool down effect wares off. It also looks better to the eyes
 
-    if (Input.GetKeyDown (KeyCode.Space) && Time.time > _canFire) {
+    if (Input.GetKeyDown (KeyCode.Space) && gameObject.name == "Player_1" && Time.time > _canFire) {
+      FireLaser ();
+    } else if (Input.GetKeyDown (KeyCode.LeftShift) && gameObject.name == "Player_2" && Time.time > _canFire) {
       FireLaser ();
     }
 
