@@ -30,10 +30,15 @@ public class GameManager : MonoBehaviour {
 
   private void Update () {
 
-    // if the r key is pressed when game is over, restart the game by restarting the current scene
-    if (Input.GetKeyDown (KeyCode.R) && _isGameOver == true) {
+    // if the r key is pressed when game is over in single layer mode, restart the game by reloading the current scene
+    if (Input.GetKeyDown (KeyCode.R) && _isGameOver == true && isCoopMode == false) {
       // we can reload the scene by it's number or it's name. We named our game "Game" as you can see in the "Scenes" folder in Unity or by it's index (which you can see by adding the Scene to your Build Settings in Unity)
-      SceneManager.LoadScene (1); // Current Game Scene
+      SceneManager.LoadScene (1);
+
+      // else if we're in Coop mode, reload the Coop scene 
+    } else if (Input.GetKeyDown (KeyCode.R) && _isGameOver == true && isCoopMode == true) {
+      SceneManager.LoadScene (2); // 
+
     }
 
     // if ESCAPE key is pressed, quit the application
