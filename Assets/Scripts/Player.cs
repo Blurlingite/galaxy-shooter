@@ -152,8 +152,13 @@ public class Player : MonoBehaviour {
   // Update is called once per frame
   // This is a game loop and it runs typically about 60 frames/second and it runs every frame. This is where all our logic & userInput  will go
   void Update () {
-    // Player's movement
-    CalculateMovement ();
+    // Player 1's movement
+    if (gameObject.name == "Player_1") {
+      CalculateMovement ();
+
+    } else if (gameObject.name == "Player_2") {
+      CalculateP2Movement ();
+    }
 
     // if I hit the SPACE key,
     // Spawn a gameobject (the laser)
@@ -217,6 +222,59 @@ public class Player : MonoBehaviour {
     // This allows the player to move and what speed they move
 
     transform.Translate (direction * _speed * Time.deltaTime);
+
+    // PLAYER BOUNDS - Areas the Player object can't go
+    // If the position on y is greater than 0,
+    // y position = 0
+
+    // else if position on the y is less than -3.8f
+    // y position = -3.8f
+
+    // The if statement means that the player object will not move up if it will go past y position 0
+    // We accessed the "position" component after the transform component with "transform.position". We set it to a new Vector3 and we want the x value to stay the same so we pass in "transform.position.x" for the first value. We set the y and z values to 0 (You could also keep the current z value with "transform.position.z" if you wanted to)
+
+    // The else if statement means that the player object will not move down if it will go below y position -3.8f. NOTE: that we only need "f" b/c this is a decimal (floats) and there is no BigDecimal like how there is in Java
+
+    // THIS CODE CAN BE RE-WRITTEN AS SHOWN BELOW TO DO THE SAME THING
+    // if (transform.position.y >= 0) {
+    //     transform.position = new Vector3 (transform.position.x, 0, 0);
+    // } else if (transform.position.y <= -3.8f) {
+    //     transform.position = new Vector3 (transform.position.x, -3.8f, 0);
+    // }
+
+    // Mathf.Clamp() allows you to select a property and give it a min and max so that the object this script is attached to cannot go below the low bound you set and cannot go higher than the high bound you set.
+    // Params: 
+    // 1) The property to clamp (transform.position.y -- The 'y' position of the object)
+    // 2) The low bound (-3.8f in this case)
+    // 3) The high bound (0 in this case)
+    transform.position = new Vector3 (transform.position.x, Mathf.Clamp (transform.position.y, -3.8f, 0), 0);
+
+    // MAKING PLAYER WARP TO OPPOSITE SIDE WHEN GOING TO THE LEFT OR RIGHT EDGES. (This is called wrapping)
+
+    // if player on x > 11.3
+    // x position = -11.3
+
+    // else if player on x < -11.3
+    // x position = 11.3
+
+    if (transform.position.x > 11.3f) {
+      transform.position = new Vector3 (-11.3f, transform.position.y, 0);
+    } else if (transform.position.x < -11.3f) {
+      transform.position = new Vector3 (11.3f, transform.position.y, 0);
+    }
+  }
+
+  void CalculateP2Movement () {
+
+    if (Input.GetKey (KeyCode.W)) {
+      transform.Translate (Vector3.up * _speed * Time.deltaTime);
+    } else if (Input.GetKey (KeyCode.A)) {
+      transform.Translate (Vector3.left * _speed * Time.deltaTime);
+    } else if (Input.GetKey (KeyCode.S)) {
+      transform.Translate (Vector3.down * _speed * Time.deltaTime);
+    } else if (Input.GetKey (KeyCode.D)) {
+      transform.Translate (Vector3.right * _speed * Time.deltaTime);
+    }
 
     // PLAYER BOUNDS - Areas the Player object can't go
     // If the position on y is greater than 0,
