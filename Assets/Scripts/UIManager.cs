@@ -6,9 +6,11 @@ using UnityEngine.UI; // used to communicate with UI elements in Unity
 public class UIManager : MonoBehaviour {
   // we needed to bring in UnityEngine.UI (above) to have the Text variable since it's a UI element
   [SerializeField]
-  private Text _scoreText;
+  private Text _scoreText, _bestScoreText;
   // get a handle to text
   // Start is called before the first frame update
+
+  private int _bestScore;
 
   // The actual image field that you will use to alternate between the 4 live sprites. (The Lives_Display_img in the Canvas)
   [SerializeField]
@@ -29,6 +31,13 @@ public class UIManager : MonoBehaviour {
     // assign text component to the handle so when game starts, there is a score that can be updated
     _scoreText.text = "Score: " + 0;
     // set this object to false to not display "Game Over" at the start of the game. Since _gameOverText is not a GameObject type, we must put .gameObject first
+
+    // Retrieve the best score that was saved under the key "HighScore" (in CheckForBestScore()). If it's the first game and there is none saved, we default it to 0 by passing that as the 2nd argument
+    _bestScore = PlayerPrefs.GetInt ("HighScore", 0);
+
+    // actually assign the text field the loaded best score
+    _bestScoreText.text = "Best: " + _bestScore;
+
     _gameOverText.gameObject.SetActive (false);
 
     _gameManager = GameObject.Find ("Game_Manager").GetComponent<GameManager> ();
@@ -44,8 +53,22 @@ public class UIManager : MonoBehaviour {
     _scoreText.text = "Score: " + playerScore;
   }
 
+  public void CheckForBestScore (int currentScore) {
+    if (currentScore > _bestScore) {
+      _bestScore = currentScore;
+
+      // use PlayerPrefs to save the score under the key "HighScore" You will use that key when you want to load the data (best score)
+      PlayerPrefs.SetInt ("HighScore", _bestScore);
+      _bestScoreText.text = "Best: " + _bestScore;
+
+    }
+  }
+
   public void UpdateLives (int currentLives) {
 
+    if (currentLives < 0) {
+      currentLives = 0;
+    }
     // access display image sprite and give it a new one based on currentLives
     _LivesImg.sprite = _liveSprites[currentLives];
 
@@ -83,6 +106,14 @@ public class UIManager : MonoBehaviour {
       yield return new WaitForSeconds (0.5f);
 
     }
+  }
+
+  public void ResumeGame () {
+    _gameManager.Unpause ();
+  }
+
+  public void backToMainMenu () {
+    _gameManager.returnToMainMenu ();
   }
 
 }

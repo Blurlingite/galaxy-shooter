@@ -386,6 +386,7 @@ public class Player : MonoBehaviour {
       // Communicate with Spawn Manager to tell it to stop spawning when the Player object is destroyed (when the player dies)
       _spawnManager.onPlayerDeath ();
 
+      _uiManager.CheckForBestScore (_score);
       // Destroys the player (and this C# script, but the Player & script will regenerate on a new game)
       Destroy (this.gameObject);
     }
