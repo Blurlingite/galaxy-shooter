@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour {
   private AudioSource _audioSource;
 
   private float _fireRate = 3.0f;
-  private float _canFire = -1;
+  private float? _canFire = -1;
 
   void Start () {
 
@@ -101,6 +101,7 @@ public class Enemy : MonoBehaviour {
       if (player != null) {
         // remove 1 life from player
         player.Damage ();
+
       }
       // trigger the explosion animation by passing in the name of the Trigger you created (OnEnemyDeath) before you destroy the enemy. Just make sure to wait the amount of seconds the animation lasts before destroying or the animation will fail. You can do this by passing in a float for the number of seconds in the Destroy() method as a second argument
       _anim.SetTrigger ("OnEnemyDeath");
@@ -108,6 +109,9 @@ public class Enemy : MonoBehaviour {
       _audioSource.Play ();
       // destroy the collider so that when bump into the enemy, only 1 explosion (the sound of the explosion)happens and to prevent player from losing more than 1 life
       Destroy (GetComponent<Collider2D> ());
+
+      // Since we delay the destruction of the enemy to let animation and sound effect play, set to null so enemy can't fire when it's destroyed. Can only set floats to null if it has a "?" in front of it's datatype
+      _canFire = null;
       Destroy (gameObject, 2.5f); // destroy this enemy object 2.5 secs after being hit
     }
 
@@ -138,8 +142,8 @@ public class Enemy : MonoBehaviour {
       // destroy the collider so that when you fire more than 1 laser at the enemy, only 1 exlposion (the sound of the explosion)happens
       Destroy (GetComponent<Collider2D> ());
 
-      _laserPrefab = null;
-
+      // Since we delay the destruction of the enemy to let animation and sound effect play, set to null so enemy can't fire when it's destroyed. Can only set floats to null if it has a "?" in front of it's datatype
+      _canFire = null;
       // needs a delay time or else animations and sounds won't play b/c object is instantly destroyed
       Destroy (this.gameObject, 2.5f);
 
