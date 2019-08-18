@@ -2376,7 +2376,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 3.5
   _speedMultiplier: 2
-  _lives: 4
+  _lives: 3
   _score: 0
   _uiManager: {fileID: 0}
   _laserPrefab: {fileID: 1011204617904037556, guid: 6f3b6e254e3334d2abd108c134fc1218,

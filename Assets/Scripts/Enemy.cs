@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour {
   private GameManager _gameManager;
   private Player _player1;
   private Player _player2;
+
   // Start is called before the first frame update
   [SerializeField]
   private Animator _anim;
@@ -136,6 +137,8 @@ public class Enemy : MonoBehaviour {
 
       // destroy the collider so that when you fire more than 1 laser at the enemy, only 1 exlposion (the sound of the explosion)happens
       Destroy (GetComponent<Collider2D> ());
+
+      _laserPrefab = null;
 
       // needs a delay time or else animations and sounds won't play b/c object is instantly destroyed
       Destroy (this.gameObject, 2.5f);

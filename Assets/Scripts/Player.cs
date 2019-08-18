@@ -370,7 +370,6 @@ public class Player : MonoBehaviour {
 
     _lives--; // reduce amount of lives by 1
     // pass in amount of lives after decrementing it above to change the sprite showing
-
     // if lives == 2 enable right engine
     // if 1, enable left engine
     if (_lives == 2) {
