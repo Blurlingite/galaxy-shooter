@@ -57,7 +57,7 @@ public class Player : MonoBehaviour {
 
   // give Player a child object to turn on or off the shield animation that moves with the player
   [SerializeField]
-  private GameObject shieldVisualizer;
+  private GameObject shieldVisualizer, _reflectorVisualizer;
 
   // decalre 2 variables at once by separating the names with a comma
   [SerializeField]
@@ -87,6 +87,9 @@ public class Player : MonoBehaviour {
 
   [SerializeField]
   private bool isShieldsActive = false;
+
+  [SerializeField]
+  private bool _isReflectorActive = false;
 
   void Start () {
 
@@ -370,6 +373,10 @@ public class Player : MonoBehaviour {
       return;
     }
 
+    if (_isReflectorActive == true) {
+      return;
+    }
+
     _lives--; // reduce amount of lives by 1
     // pass in amount of lives after decrementing it above to change the sprite showing
     // if lives == 2 enable right engine
@@ -414,6 +421,17 @@ public class Player : MonoBehaviour {
     isShieldsActive = true;
   }
 
+  public void ReflectorActive () {
+    _isReflectorActive = true;
+    _reflectorVisualizer.SetActive (true);
+    StartCoroutine (DeactivateReflector ());
+
+  }
+
+  public bool getIsReflectorActive () {
+    return _isReflectorActive;
+  }
+
   // method to add points to the score 
   // Communicate with UI Manager to show the score on the screen
 
@@ -432,5 +450,12 @@ public class Player : MonoBehaviour {
     yield return new WaitForSeconds (0.2f);
     shieldVisualizer.SetActive (false);
     isShieldsActive = false;
+  }
+
+  private IEnumerator DeactivateReflector () {
+
+    yield return new WaitForSeconds (10f);
+    _reflectorVisualizer.SetActive (false);
+    _isReflectorActive = false;
   }
 }
