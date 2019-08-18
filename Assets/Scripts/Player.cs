@@ -363,8 +363,10 @@ public class Player : MonoBehaviour {
     if (isShieldsActive == true) {
       // turn off shield animation that follows the player
 
-      shieldVisualizer.SetActive (false);
-      isShieldsActive = false;
+      StartCoroutine (DeactivateShields ());
+
+      // shieldVisualizer.SetActive (false);
+      // isShieldsActive = false;
       return;
     }
 
@@ -422,5 +424,13 @@ public class Player : MonoBehaviour {
     // show updated score on screen using UIManager (don't pass in points b/c that is not a running total, just a random assignment of points)
     _uiManager.UpdateScore (_score);
 
+  }
+
+  // used to keep shields up long enough to absorb the enemy's double laser (2 lasers at once) so player won't lose any lives while shields are active
+  private IEnumerator DeactivateShields () {
+
+    yield return new WaitForSeconds (0.2f);
+    shieldVisualizer.SetActive (false);
+    isShieldsActive = false;
   }
 }
