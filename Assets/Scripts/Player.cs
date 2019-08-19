@@ -91,6 +91,8 @@ public class Player : MonoBehaviour {
   [SerializeField]
   private bool _isReflectorActive = false;
 
+  private bool _isEnemyCollision = false;
+
   void Start () {
 
     // The UI Manager component (the UIManager C# script we attached) is attached to the Canvas object so we Find the Canvas and then get the UIManager script in GetComponent<>()
@@ -373,7 +375,8 @@ public class Player : MonoBehaviour {
       return;
     }
 
-    if (_isReflectorActive == true) {
+    if (_isReflectorActive == true && _isEnemyCollision == false) {
+
       return;
     }
 
@@ -398,6 +401,7 @@ public class Player : MonoBehaviour {
       // Destroys the player (and this C# script, but the Player & script will regenerate on a new game)
       Destroy (this.gameObject);
     }
+
   }
 
   public void SpeedBoostActive () {
@@ -457,5 +461,9 @@ public class Player : MonoBehaviour {
     yield return new WaitForSeconds (10f);
     _reflectorVisualizer.SetActive (false);
     _isReflectorActive = false;
+  }
+
+  public void setIsEnemyCollisionTrue () {
+    _isEnemyCollision = true;
   }
 }

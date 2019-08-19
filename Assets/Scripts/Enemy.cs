@@ -92,6 +92,7 @@ public class Enemy : MonoBehaviour {
     // We added a tag to the Player object in Unity called "Player" so now we can detect a collision with the player here (when it collides with the enemy)
     // We use CompareTag() to see if the tag on the collider is "Player" (the player object). This way is cleaner than saying other.tag == "Player" b/c CompareTag() does not allocate memory on the heap
     if (other.CompareTag ("Player")) {
+
       // get the Player component. First we access the variable "other", which should be the Player object we collided into. Then we need the transform of the Player object so we put ".transform". Then we use GetComponent<>() and pass in the name of the component (that you can get in Unity) into the T brackets<>. Then after that you can see you have access to the Damage() method you made in the Player script (when you called it below) from here in the Enemy script. Accessing 1 script from another is called "script communication"
       // Within this script, the only component whose transform you have direct access to is the Enemy component. But we can indirectly access another component off of a variable like how we do with the Collider variable here with ".transform"
       // The Transform is the root of the object where you can access other components like MeshRenderer, but you must say ".transform" first. I'm only writing this comment b/c in Unity it doesn't look like the components like "MeshRenderer" are in the "Transform" dropdown
@@ -99,6 +100,8 @@ public class Enemy : MonoBehaviour {
       Player player = other.transform.GetComponent<Player> ();
 
       if (player != null) {
+        player.setIsEnemyCollisionTrue ();
+
         // remove 1 life from player
         player.Damage ();
 
