@@ -179,7 +179,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 1b4a8fdd39d3a45d0a9ee484ad6800ec, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.6206889, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -212,8 +212,7 @@ MonoBehaviour:
     type: 3}
   _fireRate: 0.15
   shieldVisualizer: {fileID: 344897970519029371}
-  _reflectorVisualizer: {fileID: 5295809253337638870, guid: 81e37ca3f26454da0ada75fd944599ed,
-    type: 3}
+  _reflectorVisualizer: {fileID: 0}
   _leftEngine: {fileID: 344897969414898297}
   _rightEngine: {fileID: 344897970092853317}
   _gameManager: {fileID: 0}
