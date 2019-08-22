@@ -118,6 +118,8 @@ public class Laser : MonoBehaviour
 
     if (other.gameObject.CompareTag("Reflector"))
     {
+      // enemy lasers pass through other enemies so when we reflect it back we should not treat the laser as an enemy laser
+      _isEnemyLaser = false;
       _isDirectionReversed = true;
     }
 
@@ -131,6 +133,11 @@ public class Laser : MonoBehaviour
   public void setIsEnemyLaser()
   {
     _isEnemyLaser = true;
+  }
+
+  public bool getIsEnemyLaser()
+  {
+    return _isEnemyLaser;
   }
 
 }

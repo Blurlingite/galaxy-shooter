@@ -137,37 +137,53 @@ public class Enemy : MonoBehaviour
     // We added a tag to the Laser object in Unity called "Laser" so now we can detect a collision with the laser here (when it collides with the enemy) and then destroy the laser, giving the illusion that the laser did damage to the enemy
     if (other.CompareTag("Laser"))
     {
-      Destroy(other.gameObject);
+      // Get the component we assume to be of type Laser (we assume a laser is colliding with this enemy and it should be b/c we used CompareTag() to look for the Laser). We need the type to be Laser so we can get access to the _isEnemyLaser boolean in Laser.cs
+      Laser enemyLaser = other.gameObject.GetComponent<Laser>();
 
-      // Using this commented out code uses too much resources. GetComponent<>() is an expensive call, and what if we have 50 or more enemies? That means 50 GetComponent calls. So instead, we declare a global Player varaible, and the assign it the Player in void Start() so we'll only use 1 call to get the Player and we can use this reference as many times as we want
-      // Player p = GameObject.Find("Player").GetComponent<Player>();
-
-      // Checking if the player is null here is better than doing this i the Start() method b/c Start() only gets called once when the game starts, so if the Player became null after that (by dying) we would get an error here
-      if (_player1 != null)
+      if (enemyLaser == null)
       {
-        // 5-12 range we need to pass in 5 and 13 b/c ints don't include the max
-        int randomPoints = Random.Range(5, 13);
-        // add to the player score
-        // We can't use other to find the Player object b/c "other" in this if statement is the Laser (as shown by other.CompareTag("Laser"))
-        _player1.AddScore(randomPoints);
+        Debug.Log("Laser is null ::Enemy.cs::OnTriggerEnter2D()");
       }
+
+      // If it's an enemy laser (by anither enemy) hitting this enemy, let the laser pass through it by doing nothing
+      if (enemyLaser.getIsEnemyLaser() == true)
+      {
+      }
+      // Else, do everything you would to destroy this enemy object
       else
       {
-        Debug.Log("Player is null cannot add score");
+
+        Destroy(other.gameObject);
+
+        // Using this commented out code uses too much resources. GetComponent<>() is an expensive call, and what if we have 50 or more enemies? That means 50 GetComponent calls. So instead, we declare a global Player varaible, and the assign it the Player in void Start() so we'll only use 1 call to get the Player and we can use this reference as many times as we want
+        // Player p = GameObject.Find("Player").GetComponent<Player>();
+
+        // Checking if the player is null here is better than doing this i the Start() method b/c Start() only gets called once when the game starts, so if the Player became null after that (by dying) we would get an error here
+        if (_player1 != null)
+        {
+          // 5-12 range we need to pass in 5 and 13 b/c ints don't include the max
+          int randomPoints = Random.Range(5, 13);
+          // add to the player score
+          // We can't use other to find the Player object b/c "other" in this if statement is the Laser (as shown by other.CompareTag("Laser"))
+          _player1.AddScore(randomPoints);
+        }
+        else
+        {
+          Debug.Log("Player is null cannot add score");
+        }
+        // trigger the explosion animation by passing in the name of the Trigger you created (OnEnemyDeath) before you destroy the enemy. Just make sure to wait the amount of seconds the animation lasts before destroying or the animation will fail. You can do this by passing in a float for the number of seconds in the Destroy() method as a second argument
+        _anim.SetTrigger("OnEnemyDeath");
+        _speed = 0;
+        _audioSource.Play();
+
+        // destroy the collider so that when you fire more than 1 laser at the enemy, only 1 exlposion (the sound of the explosion)happens
+        Destroy(GetComponent<Collider2D>());
+
+        // Since we delay the destruction of the enemy to let animation and sound effect play, set to null so enemy can't fire when it's destroyed. Can only set floats to null if it has a "?" in front of it's datatype
+        _canFire = null;
+        // needs a delay time or else animations and sounds won't play b/c object is instantly destroyed
+        Destroy(this.gameObject, 2.5f);
       }
-      // trigger the explosion animation by passing in the name of the Trigger you created (OnEnemyDeath) before you destroy the enemy. Just make sure to wait the amount of seconds the animation lasts before destroying or the animation will fail. You can do this by passing in a float for the number of seconds in the Destroy() method as a second argument
-      _anim.SetTrigger("OnEnemyDeath");
-      _speed = 0;
-      _audioSource.Play();
-
-      // destroy the collider so that when you fire more than 1 laser at the enemy, only 1 exlposion (the sound of the explosion)happens
-      Destroy(GetComponent<Collider2D>());
-
-      // Since we delay the destruction of the enemy to let animation and sound effect play, set to null so enemy can't fire when it's destroyed. Can only set floats to null if it has a "?" in front of it's datatype
-      _canFire = null;
-      // needs a delay time or else animations and sounds won't play b/c object is instantly destroyed
-      Destroy(this.gameObject, 2.5f);
-
     }
   }
 

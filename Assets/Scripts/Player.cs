@@ -5,7 +5,8 @@ using UnityEngine; // need this to use MonoBehaviour below
 
 // We extend from MonoBehaviour, a Unity specific term. It allows us to drag and drop scripts or behaviors onto game objects to control them in Unity
 // We will attach it to the player and will make that player behave like a player
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour
+{
 
   // SerializeField will allow this private variable to appear in Unity so someone can change it to test out something, etc.
   // This variable controls how fast the game object will move
@@ -101,45 +102,57 @@ public class Player : MonoBehaviour {
   private bool _isAnotherSpeedBoost = false;
   private bool _isAnotherReflector = false;
 
-  void Start () {
+  void Start()
+  {
 
     // The UI Manager component (the UIManager C# script we attached) is attached to the Canvas object so we Find the Canvas and then get the UIManager script in GetComponent<>()
     // The component has a space in it but the field "Script" does not so it will work b/c we look at "Script" when we use GetComponent<>()
-    _uiManager = GameObject.Find ("Canvas").GetComponent<UIManager> ();
+    _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
 
-    if (_uiManager == null) {
-      Debug.LogError ("The UI Manager is NULL! ::Player.cs::Start()");
+    if (_uiManager == null)
+    {
+      Debug.LogError("The UI Manager is NULL! ::Player.cs::Start()");
     }
 
-    _audioSource = GetComponent<AudioSource> ();
+    _audioSource = GetComponent<AudioSource>();
 
     // if Audio Source is null console an error message
     // else, assign the audioclip to the AudioSource variable using the AudioClip variable
-    if (_audioSource == null) {
-      Debug.LogError ("Audio Source on the player is NULL ::Player.cs::Start()");
-    } else {
+    if (_audioSource == null)
+    {
+      Debug.LogError("Audio Source on the player is NULL ::Player.cs::Start()");
+    }
+    else
+    {
       // assign the clip to the audio source
       _audioSource.clip = _laserSoundClip;
     }
 
-    _gameManager = GameObject.Find ("Game_Manager").GetComponent<GameManager> ();
+    _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
 
-    if (_gameManager == null) {
-      Debug.LogError ("Game Manager is NULL ::Player.cs::Start()");
+    if (_gameManager == null)
+    {
+      Debug.LogError("Game Manager is NULL ::Player.cs::Start()");
     }
 
-    if (_gameManager.isCoopMode == false) {
+    if (_gameManager.isCoopMode == false)
+    {
 
       // take the current position = new position(0,0,0) (x,y,z)
       // How we access the Player object's position? Unity is  component based so in the Unity editor, click on the Player object and you will see that we need to access the "Transform" section (component) to get the Player object's position. Inside Transform, you will see "Position" so we access the position using transform.position
       // Vector3 defines positioning of game objects. We are assigning the position (transform.position) a new position in (x,y,z) format
-      transform.position = new Vector3 (0, 0, 0);
-    } else {
+      transform.position = new Vector3(0, 0, 0);
+    }
+    else
+    {
 
-      if (gameObject.name == "Player_1") {
-        transform.position = new Vector3 (-4.48f, -1.77f, 0f);
-      } else if (gameObject.name == "Player_2") {
-        transform.position = new Vector3 (4.48f, -1.77f, 0f);
+      if (gameObject.name == "Player_1")
+      {
+        transform.position = new Vector3(-4.48f, -1.77f, 0f);
+      }
+      else if (gameObject.name == "Player_2")
+      {
+        transform.position = new Vector3(4.48f, -1.77f, 0f);
       }
 
     }
@@ -150,31 +163,37 @@ public class Player : MonoBehaviour {
     // Once we find the object, we use GetComponent<>() and pass in the type of component we are looking for (which is SpawnManager, since our variable _spawnManager is of type SpawnManager)
     // Now we have access to the SpawnManager C# script from within this C# script (the Player's)
     // This is how we communicate between scripts when we don't have an object variable (like Collider in the Enemey C# script).
-    _spawnManager = GameObject.Find ("Spawn_Manager").GetComponent<SpawnManager> ();
+    _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
 
     // Remember to check if null for debugging purposes in case we could not find the Spawn Manager object
-    if (_spawnManager == null) {
-      Debug.LogError ("The Spawn Manager is NULL! ::Player.cs::Start()");
+    if (_spawnManager == null)
+    {
+      Debug.LogError("The Spawn Manager is NULL! ::Player.cs::Start()");
     }
 
-    _rightEngine.SetActive (false);
-    _leftEngine.SetActive (false);
+    _rightEngine.SetActive(false);
+    _leftEngine.SetActive(false);
 
   }
-  private string UppercaseString (string inputString) {
-    return inputString.ToUpper ();
+  private string UppercaseString(string inputString)
+  {
+    return inputString.ToUpper();
   }
 
   // Update is called once per frame
   // This is a game loop and it runs typically about 60 frames/second and it runs every frame. This is where all our logic & userInput  will go
-  void Update () {
+  void Update()
+  {
 
     // Player 1's movement
-    if (gameObject.name == "Player_1") {
-      CalculateMovement ();
+    if (gameObject.name == "Player_1")
+    {
+      CalculateMovement();
 
-    } else if (gameObject.name == "Player_2") {
-      CalculateP2Movement ();
+    }
+    else if (gameObject.name == "Player_2")
+    {
+      CalculateP2Movement();
     }
 
     // if I hit the SPACE key and I'm Player 1,
@@ -191,23 +210,27 @@ public class Player : MonoBehaviour {
 
     // Also, the if statement was originally in the FireLaser() method but it's better to put it here before we call FireLaser() otherwise we waste resources calling the FireLaser() method before the cool down effect wares off. It also looks better to the eyes
 
-    if (Input.GetKeyDown (KeyCode.Space) && gameObject.name == "Player_1" && Time.time > _canFire) {
-      FireLaser ();
-    } else if (Input.GetKeyDown (KeyCode.LeftShift) && gameObject.name == "Player_2" && Time.time > _canFire) {
-      FireLaser ();
+    if (Input.GetKeyDown(KeyCode.Space) && gameObject.name == "Player_1" && Time.time > _canFire)
+    {
+      FireLaser();
+    }
+    else if (Input.GetKeyDown(KeyCode.LeftShift) && gameObject.name == "Player_2" && Time.time > _canFire)
+    {
+      FireLaser();
     }
 
   }
 
-  void CalculateMovement () {
+  void CalculateMovement()
+  {
     // Get the horizontal axis so you can move the game object with the left/right arrows or the a/d keys
     // To see how we get to the horizontal axis in Unity go to Edit > Project Settings > Input Manager > Axes > Horizontal
     // That is what we are doing here. "Input" calls the Input Manager. "GetAxis" is what we use to get an axis by it's name (capitalization is important)
     // Now we have the horizontal axis and when we add this to the formula below by multiplying by this variable, we can now move the game object using the left/right arrows or a/d keys
-    float horizontalInput = Input.GetAxis ("Horizontal");
+    float horizontalInput = Input.GetAxis("Horizontal");
 
     // Get vertical axis in Unity
-    float verticalInput = Input.GetAxis ("Vertical");
+    float verticalInput = Input.GetAxis("Vertical");
 
     // access the object you want to move, which is our Player, which we are already on
     // 1 unit in Unity is 1 meter in the real world, so "new Vector3.right" makes the Player move 60 meters per second (the Update() makes has a speed of 60 frames per second, so multiply by 1 meter to get 60 meters per second) which is too fast
@@ -235,12 +258,12 @@ public class Player : MonoBehaviour {
     // As you press the up/down arrows, verticalInput's value changes causing the game object to move up or down.
     // "speed" controls how fast the game object moves and when we combine it with the Vector3 that controls the game object's horizontal and vertical axes, it will apply that speed when you press the arrow keys
 
-    Vector3 direction = new Vector3 (horizontalInput, verticalInput, 0);
+    Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
 
     // plug in the "direction" variable for cleaner looking code (we could've just put what is assigned to the "direction" variable into this formula but this way is easier to look at)
     // This allows the player to move and what speed they move
 
-    transform.Translate (direction * _speed * Time.deltaTime);
+    transform.Translate(direction * _speed * Time.deltaTime);
 
     // PLAYER BOUNDS - Areas the Player object can't go
     // If the position on y is greater than 0,
@@ -266,7 +289,7 @@ public class Player : MonoBehaviour {
     // 1) The property to clamp (transform.position.y -- The 'y' position of the object)
     // 2) The low bound (-3.8f in this case)
     // 3) The high bound (0 in this case)
-    transform.position = new Vector3 (transform.position.x, Mathf.Clamp (transform.position.y, -3.8f, 0), 0);
+    transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 0), 0);
 
     // MAKING PLAYER WARP TO OPPOSITE SIDE WHEN GOING TO THE LEFT OR RIGHT EDGES. (This is called wrapping)
 
@@ -276,23 +299,34 @@ public class Player : MonoBehaviour {
     // else if player on x < -11.3
     // x position = 11.3
 
-    if (transform.position.x > 11.3f) {
-      transform.position = new Vector3 (-11.3f, transform.position.y, 0);
-    } else if (transform.position.x < -11.3f) {
-      transform.position = new Vector3 (11.3f, transform.position.y, 0);
+    if (transform.position.x > 11.3f)
+    {
+      transform.position = new Vector3(-11.3f, transform.position.y, 0);
+    }
+    else if (transform.position.x < -11.3f)
+    {
+      transform.position = new Vector3(11.3f, transform.position.y, 0);
     }
   }
 
-  void CalculateP2Movement () {
+  void CalculateP2Movement()
+  {
 
-    if (Input.GetKey (KeyCode.W)) {
-      transform.Translate (Vector3.up * _speed * Time.deltaTime);
-    } else if (Input.GetKey (KeyCode.A)) {
-      transform.Translate (Vector3.left * _speed * Time.deltaTime);
-    } else if (Input.GetKey (KeyCode.S)) {
-      transform.Translate (Vector3.down * _speed * Time.deltaTime);
-    } else if (Input.GetKey (KeyCode.D)) {
-      transform.Translate (Vector3.right * _speed * Time.deltaTime);
+    if (Input.GetKey(KeyCode.W))
+    {
+      transform.Translate(Vector3.up * _speed * Time.deltaTime);
+    }
+    else if (Input.GetKey(KeyCode.A))
+    {
+      transform.Translate(Vector3.left * _speed * Time.deltaTime);
+    }
+    else if (Input.GetKey(KeyCode.S))
+    {
+      transform.Translate(Vector3.down * _speed * Time.deltaTime);
+    }
+    else if (Input.GetKey(KeyCode.D))
+    {
+      transform.Translate(Vector3.right * _speed * Time.deltaTime);
     }
 
     // PLAYER BOUNDS - Areas the Player object can't go
@@ -319,7 +353,7 @@ public class Player : MonoBehaviour {
     // 1) The property to clamp (transform.position.y -- The 'y' position of the object)
     // 2) The low bound (-3.8f in this case)
     // 3) The high bound (0 in this case)
-    transform.position = new Vector3 (transform.position.x, Mathf.Clamp (transform.position.y, -3.8f, 0), 0);
+    transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 0), 0);
 
     // MAKING PLAYER WARP TO OPPOSITE SIDE WHEN GOING TO THE LEFT OR RIGHT EDGES. (This is called wrapping)
 
@@ -329,38 +363,47 @@ public class Player : MonoBehaviour {
     // else if player on x < -11.3
     // x position = 11.3
 
-    if (transform.position.x > 11.3f) {
-      transform.position = new Vector3 (-11.3f, transform.position.y, 0);
-    } else if (transform.position.x < -11.3f) {
-      transform.position = new Vector3 (11.3f, transform.position.y, 0);
+    if (transform.position.x > 11.3f)
+    {
+      transform.position = new Vector3(-11.3f, transform.position.y, 0);
+    }
+    else if (transform.position.x < -11.3f)
+    {
+      transform.position = new Vector3(11.3f, transform.position.y, 0);
     }
   }
 
-  void FireLaser () {
+  void FireLaser()
+  {
     // _canFire holds how much time you must wait before another laser can be shot
     _canFire = Time.time + _fireRate;
 
     // Fire 3 lasers (if triple shot prefab is active). If not, fire 1 laser
-    if (_isTripleShotActive == true) {
-      Instantiate (_tripleShotPrefab, transform.position, Quaternion.identity);
+    if (_isTripleShotActive == true)
+    {
+      Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
 
-    } else {
+    }
+    else
+    {
 
       // We want the laser to spawn 1.05 above the player's y position. Since position is a Vector3 we can't simply add 0.8f to transform.position. 
       // What we can do is add a new Vector3 that has a y value of 0.8f and x & z values of 0
-      Instantiate (_laserPrefab, transform.position + new Vector3 (0, 1.05f, 0), Quaternion.identity);
+      Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
     }
 
     // play laser audio clip. Make sure that "Play On Awake in the Audio Source component is unchecked, or else it'll play as soon as the game starts
-    _audioSource.Play ();
+    _audioSource.Play();
 
   }
 
-  public void TripleShotActive () {
+  public void TripleShotActive()
+  {
 
     // if you collect another Triple shot powerup before the first one wears off, reset the duration
-    if (_isAnotherTripleShot == true) {
-      StopCoroutine (tripleShotCoroutine); // stop the current coroutine so the _isTripleShotActive boolean does not turn false. When you collect the 2nd triple shot powerup, TripleShotActive() will get called again and the coroutine will be called again but will start at maximum duration. Then the _isTripleShotActive boolean turns false b/c of that 2nd coroutine ending
+    if (_isAnotherTripleShot == true)
+    {
+      StopCoroutine(tripleShotCoroutine); // stop the current coroutine so the _isTripleShotActive boolean does not turn false. When you collect the 2nd triple shot powerup, TripleShotActive() will get called again and the coroutine will be called again but will start at maximum duration. Then the _isTripleShotActive boolean turns false b/c of that 2nd coroutine ending
       _isAnotherTripleShot = false; // set to false so we don't continue to execute this if statement without getting a 2nd triple shot powerup
 
     }
@@ -368,36 +411,36 @@ public class Player : MonoBehaviour {
     _isTripleShotActive = true;
 
     //start the power down coroutine
-    // StartCoroutine(TripleShotPowerDownRoutine());
-    tripleShotCoroutine = TripleShotPowerDownRoutine ();
+    tripleShotCoroutine = TripleShotPowerDownRoutine();
 
-    StartCoroutine (tripleShotCoroutine);
+    StartCoroutine(tripleShotCoroutine);
   }
 
   // set up a power down coroutine for triple shot
-  IEnumerator TripleShotPowerDownRoutine () {
+  IEnumerator TripleShotPowerDownRoutine()
+  {
     // wait 5 secs
-    yield return new WaitForSeconds (5.0f);
+    yield return new WaitForSeconds(5.0f);
 
     // Set to false so you can't use triple shot until you get another one
     _isTripleShotActive = false;
   }
 
   // method in C# are private by default (by just saying "void") but we want the enemy to do damage to the player so we want the enemy to access this methos, so we made it public
-  public void Damage () {
+  public void Damage()
+  {
     // if shields are active
     // deactivate shields b/c they've been hit and then return form the function (to exit the void function)
-    if (isShieldsActive == true) {
+    if (isShieldsActive == true)
+    {
       // turn off shield animation that follows the player
 
-      StartCoroutine (DeactivateShields ());
-
-      // shieldVisualizer.SetActive (false);
-      // isShieldsActive = false;
+      StartCoroutine(DeactivateShields());
       return;
     }
 
-    if (_isReflectorActive == true && _isEnemyCollision == false) {
+    if (_isReflectorActive == true && _isEnemyCollision == false)
+    {
 
       return;
     }
@@ -406,31 +449,37 @@ public class Player : MonoBehaviour {
     // pass in amount of lives after decrementing it above to change the sprite showing
     // if lives == 2 enable right engine
     // if 1, enable left engine
-    if (_lives == 2) {
-      _rightEngine.SetActive (true);
-    } else if (_lives == 1) {
-      _leftEngine.SetActive (true);
+    if (_lives == 2)
+    {
+      _rightEngine.SetActive(true);
+    }
+    else if (_lives == 1)
+    {
+      _leftEngine.SetActive(true);
     }
 
-    _uiManager.UpdateLives (_lives);
+    _uiManager.UpdateLives(_lives);
 
     // checked if player died and if yes, stop the Spawn Manager &destroy the player
-    if (_lives < 1) {
+    if (_lives < 1)
+    {
       // Communicate with Spawn Manager to tell it to stop spawning when the Player object is destroyed (when the player dies)
-      _spawnManager.onPlayerDeath ();
+      _spawnManager.onPlayerDeath();
 
-      _uiManager.CheckForBestScore (_score);
+      _uiManager.CheckForBestScore(_score);
       // Destroys the player (and this C# script, but the Player & script will regenerate on a new game)
-      Destroy (this.gameObject);
+      Destroy(this.gameObject);
     }
 
   }
 
-  public void SpeedBoostActive () {
+  public void SpeedBoostActive()
+  {
 
     // if you collected another speed power up before the first one wears off, reset the duration
-    if (_isAnotherSpeedBoost == true) {
-      StopCoroutine (speedCoroutine); // first stop the current coroutine so we don't power down in remaing < 5 secs
+    if (_isAnotherSpeedBoost == true)
+    {
+      StopCoroutine(speedCoroutine); // first stop the current coroutine so we don't power down in remaing < 5 secs
       _speed /= 2; // then cut speed since stopping the coroutine skips the reduction in speed.
       // When you collect another speed powerup, SpeedBoostActive() gets called again (in Powerup.cs) so the speed is doubled again and the coroutine restarts and will reduce halve the speed again to return to normal speed
       _isAnotherSpeedBoost = false; // set to false so we don't continue executing this if statement and continue to halve speed until it reaches 0
@@ -440,92 +489,105 @@ public class Player : MonoBehaviour {
     // change speed to be speed * multiplier
     _speed *= _speedMultiplier;
     // StartCoroutine(SpeedBoostPowerDownRoutine());
-    speedCoroutine = SpeedBoostPowerDownRoutine ();
-    StartCoroutine (speedCoroutine);
+    speedCoroutine = SpeedBoostPowerDownRoutine();
+    StartCoroutine(speedCoroutine);
 
   }
 
-  IEnumerator SpeedBoostPowerDownRoutine () {
-    yield return new WaitForSeconds (5.0f);
+  IEnumerator SpeedBoostPowerDownRoutine()
+  {
+    yield return new WaitForSeconds(5.0f);
 
     _isSpeedBoostActive = false;
     // revert speed back by dividing by multiplier
     _speed /= _speedMultiplier;
   }
 
-  public void ShieldsActive () {
+  public void ShieldsActive()
+  {
     // turn on the shield animation that follows the player
-    shieldVisualizer.SetActive (true);
+    shieldVisualizer.SetActive(true);
     isShieldsActive = true;
   }
 
-  public void ReflectorActive () {
+  public void ReflectorActive()
+  {
 
     // if you collected another speed power up before the first one wears off, reset the duration
-    if (_isAnotherReflector == true) {
-      StopCoroutine (reflectorCoroutine);
+    if (_isAnotherReflector == true)
+    {
+      StopCoroutine(reflectorCoroutine);
       _isAnotherReflector = false; // set to false so we don't continue executing this if statement.
     }
 
     _isReflectorActive = true;
-    _reflectorVisualizer.SetActive (true);
-    // StartCoroutine (DeactivateReflector ());
-    reflectorCoroutine = DeactivateReflector ();
-    StartCoroutine (reflectorCoroutine);
+    _reflectorVisualizer.SetActive(true);
+    reflectorCoroutine = DeactivateReflector();
+    StartCoroutine(reflectorCoroutine);
   }
 
   // method to add points to the score 
   // Communicate with UI Manager to show the score on the screen
 
   // has a parameter to accept varying number of points to add to score. Give the player a random number of points from 5-12 for each destroyed enemy
-  public void AddScore (int points) {
+  public void AddScore(int points)
+  {
     // add points
     _score += points;
     // show updated score on screen using UIManager (don't pass in points b/c that is not a running total, just a random assignment of points)
-    _uiManager.UpdateScore (_score);
+    _uiManager.UpdateScore(_score);
 
   }
 
   // used to keep shields up long enough to absorb the enemy's double laser (2 lasers at once) so player won't lose any lives while shields are active
-  private IEnumerator DeactivateShields () {
+  private IEnumerator DeactivateShields()
+  {
 
-    yield return new WaitForSeconds (0.2f);
-    shieldVisualizer.SetActive (false);
+    yield return new WaitForSeconds(0.2f);
+    shieldVisualizer.SetActive(false);
     isShieldsActive = false;
   }
 
-  private IEnumerator DeactivateReflector () {
+  private IEnumerator DeactivateReflector()
+  {
 
-    yield return new WaitForSeconds (10f);
-    _reflectorVisualizer.SetActive (false);
+    yield return new WaitForSeconds(10f);
+    _reflectorVisualizer.SetActive(false);
     _isReflectorActive = false;
   }
 
-  public void setIsEnemyCollisionTrue () {
+  public void setIsEnemyCollisionTrue()
+  {
     _isEnemyCollision = true;
   }
 
-  public bool getIsSpeedBoostActive () {
+  public bool getIsSpeedBoostActive()
+  {
     return _isSpeedBoostActive;
   }
 
-  public void setIsAnotherSpeedBoost () {
+  public void setIsAnotherSpeedBoost()
+  {
     _isAnotherSpeedBoost = true;
   }
 
-  public bool getIsTripleShotActive () {
+  public bool getIsTripleShotActive()
+  {
     return _isTripleShotActive;
   }
 
-  public void setIsAnotherTripleShot () {
+  public void setIsAnotherTripleShot()
+  {
     _isAnotherTripleShot = true;
   }
 
-  public bool getIsReflectorActive () {
+  public bool getIsReflectorActive()
+  {
     return _isReflectorActive;
   }
 
-  public void setIsAnotherReflector () {
+  public void setIsAnotherReflector()
+  {
     _isAnotherReflector = true;
   }
 
