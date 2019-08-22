@@ -21,7 +21,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 2}
-  m_MinSize: {x: 950, y: 300}
+  m_MinSize: {x: 950, y: 521}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -112,10 +112,10 @@ MonoBehaviour:
     y: 30
     width: 1680
     height: 864
-  m_MinSize: {x: 709, y: 492}
-  m_MaxSize: {x: 18004, y: 14042}
+  m_MinSize: {x: 709, y: 471}
+  m_MaxSize: {x: 18004, y: 14021}
   vertical: 0
-  controlID: 540
+  controlID: 92
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -137,10 +137,10 @@ MonoBehaviour:
     y: 0
     width: 935
     height: 864
-  m_MinSize: {x: 201, y: 421}
-  m_MaxSize: {x: 4001, y: 8021}
+  m_MinSize: {x: 201, y: 442}
+  m_MaxSize: {x: 4001, y: 8042}
   vertical: 1
-  controlID: 625
+  controlID: 93
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -218,10 +218,10 @@ MonoBehaviour:
     y: 0
     width: 338
     height: 864
-  m_MinSize: {x: 232, y: 492}
-  m_MaxSize: {x: 10002, y: 14042}
+  m_MinSize: {x: 232, y: 471}
+  m_MaxSize: {x: 10002, y: 14021}
   vertical: 1
-  controlID: 546
+  controlID: 18
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -336,9 +336,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -4.48, y: -1.77, z: 0}
+    m_Target: {x: 0, y: 1, z: 0}
     speed: 2
-    m_Value: {x: -4.48, y: -1.77, z: 0}
+    m_Value: {x: 0, y: 1, z: 0}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -372,9 +372,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 5.975917
+    m_Target: 8.963875
     speed: 2
-    m_Value: 5.975917
+    m_Value: 8.963875
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -532,10 +532,10 @@ MonoBehaviour:
       e32: 0
       e33: 1
   m_PreviewAnimator: {fileID: 0}
-  m_AnimatorController: {fileID: 9100000, guid: c9c177a2e811f42b8bf38d1b2024381f,
+  m_AnimatorController: {fileID: 9100000, guid: 197c0e2689327463a8fe89db34ea8dc4,
     type: 2}
   m_BreadCrumbs:
-  - m_Target: {fileID: 5218096173111700109, guid: c9c177a2e811f42b8bf38d1b2024381f,
+  - m_Target: {fileID: 3240852385029080873, guid: 197c0e2689327463a8fe89db34ea8dc4,
       type: 2}
     m_ScrollPosition: {x: 0, y: 0}
   stateMachineGraph: {fileID: 0}
@@ -690,7 +690,7 @@ MonoBehaviour:
   m_ViewDataDictionary: {fileID: 0}
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 14238
+  m_LastSelectedObjectID: -12838
 --- !u!114 &18
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -717,8 +717,8 @@ MonoBehaviour:
     height: 457
   m_ViewDataDictionary: {fileID: 0}
   m_ResetOnNextRepaint: 0
-  m_SelectedAssetPath: Assets/Sprites/Player_Reflector.png
-  m_SelectedSpriteRectGUID: cdecb072037cc490599a575c467f5ba5
+  m_SelectedAssetPath: Assets/Sprites/Enemy_Explode_Sequence/EnemyTurnLeft0000_00000.png
+  m_SelectedSpriteRectGUID: 5e97eb03825dee720800000000000000
   m_LastUsedModuleTypeName: 
 --- !u!114 &19
 MonoBehaviour:
@@ -749,9 +749,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 08370000
+      m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 20ddfaff0617fbff2a1efbff4e1efbffea57fbff2458fbff2658fbffe45bfbfff09dfbfff29dfbff10a0fbffa895fcffd495fcff1601fdff8e0bfdffc6faffff82fbffff30380000d6780000
+      m_ExpandedIDs: 82fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -813,8 +813,7 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SkipHidden: 0
     m_SearchArea: 1
-    m_Folders:
-    - Assets/Prefabs
+    m_Folders: []
   m_ViewMode: 0
   m_StartGridSize: 64
   m_LastFolders: []
@@ -826,7 +825,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: ac310000
     m_LastClickedID: 12716
-    m_ExpandedIDs: ffffffff0000000044330000d8360000da360000dc360000de360000e0360000
+    m_ExpandedIDs: 0000000052340000903900009a3900009c3900009e390000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -854,21 +853,21 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: ffffffff0000000044330000d8360000da360000dc360000de360000
+    m_ExpandedIDs: ffffffff0000000052340000903900009a3900009c3900009e390000c6390000ca390000d2390000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: Single_Player
-      m_OriginalName: Single_Player
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 14096
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 11}
     m_SearchString: 

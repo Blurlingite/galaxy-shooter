@@ -108,25 +108,10 @@ public class Laser : MonoBehaviour
     {
       Player player = other.GetComponent<Player>();
 
-      // if (player.getIsReflectorActive() == true)
-      // {
-      //   _isDirectionReversed = true;
-      // }
-
-      // if (player.getIsReflectorActive () == true) {
-      //   Debug.Log ("YES");
-      //   Vector3 reverseDirection = new Vector3 (0, 0, 0);
-
-      //   if (direction == Vector3.down) {
-      //     direction = Vector3.up;
-      //   }
-
-      //   transform.Translate (reverseDirection * _speed * Time.deltaTime);
-
-      // }
       if (player != null)
       {
         player.Damage();
+        Destroy(this.gameObject);
       }
 
     }
