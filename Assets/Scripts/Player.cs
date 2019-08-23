@@ -105,6 +105,7 @@ public class Player : MonoBehaviour
   void Start()
   {
 
+
     // The UI Manager component (the UIManager C# script we attached) is attached to the Canvas object so we Find the Canvas and then get the UIManager script in GetComponent<>()
     // The component has a space in it but the field "Script" does not so it will work b/c we look at "Script" when we use GetComponent<>()
     _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
@@ -458,7 +459,7 @@ public class Player : MonoBehaviour
       _leftEngine.SetActive(true);
     }
 
-    _uiManager.UpdateLives(_lives);
+    _uiManager.UpdateLives(_lives, gameObject.name);
 
     // checked if player died and if yes, stop the Spawn Manager &destroy the player
     if (_lives < 1)

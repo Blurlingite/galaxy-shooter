@@ -16,11 +16,16 @@ public class UIManager : MonoBehaviour
   // The actual image field that you will use to alternate between the 4 live sprites. (The Lives_Display_img in the Canvas)
   [SerializeField]
   private Image _LivesImg;
-  // Sprites to alternate between depending on how many lives left (assign the sprites in the Inspector in Unity by changing the size of this field to 4 and dragging & dropping the 4 sprites)
+
+
+  [SerializeField]
+  private Image _P2LivesImg;
+
 
   // used to get the index of 4 to show the "more than 3 lives" sprite in _liveSprites without having to set the currentlives to 4 (If you had 7 lives, it would be set to 4)
   private int multiLives;
 
+  // Sprites to alternate between depending on how many lives left (assign the sprites in the Inspector in Unity by changing the size of this field to 4 and dragging & dropping the 4 sprites)
   [SerializeField]
   private Sprite[] _liveSprites;
 
@@ -35,8 +40,10 @@ public class UIManager : MonoBehaviour
   [SerializeField]
   private Text multiLivesText;
 
+
   void Start()
   {
+
     // assign text component to the handle so when game starts, there is a score that can be updated
     _scoreText.text = "Score: " + 0;
     // set this object to false to not display "Game Over" at the start of the game. Since _gameOverText is not a GameObject type, we must put .gameObject first
@@ -55,6 +62,7 @@ public class UIManager : MonoBehaviour
     {
       Debug.LogError("Game Manager is NULL");
     }
+
   }
 
   // Update is called once per frame
@@ -77,38 +85,16 @@ public class UIManager : MonoBehaviour
     }
   }
 
-  public void UpdateLives(int currentLives)
+  public void UpdateLives(int currentLives, string playerName)
   {
-
-    if (currentLives < 0)
+    if (playerName == "Player_1")
     {
-      currentLives = 0; // prevent negative lives
-    }
-
-    // when out of lives, GameOverSequence() will display game over text by setting it's object active. This code should NOT go in the Player script b/c displaying UI things is the UI Manager's job
-    else if (currentLives < 1)
-    {
-      GameOverSequence();
-    }
-
-    // Sprite Assignment
-
-    if (currentLives > 4)
-    {
-      multiLives = 4; // so we get the correct sprite at index 4 to represent more than 3 lives
-
-      // show multiple lives sprite
-      _LivesImg.sprite = _liveSprites[multiLives];
-      // set multiple lives text active
-      multiLivesText.gameObject.SetActive(true);
-      // Assign amount of lives
-      multiLivesText.text = "x " + currentLives;
+      displayLives(currentLives, _LivesImg);
 
     }
-    else
+    else if (playerName == "Player_2")
     {
-      // access display image sprite and give it a new one based on currentLives
-      _LivesImg.sprite = _liveSprites[currentLives];
+      displayLives(currentLives, _P2LivesImg);
     }
 
   }
@@ -154,6 +140,41 @@ public class UIManager : MonoBehaviour
   public void backToMainMenu()
   {
     _gameManager.returnToMainMenu();
+  }
+
+  private void displayLives(int amountOfLives, Image spriteReference)
+  {
+    if (amountOfLives < 0)
+    {
+      amountOfLives = 0; // prevent negative lives
+    }
+
+    // when out of lives, GameOverSequence() will display game over text by setting it's object active. This code should NOT go in the Player script b/c displaying UI things is the UI Manager's job
+    else if (amountOfLives < 1)
+    {
+      GameOverSequence();
+    }
+
+    // Sprite Assignment
+
+    if (amountOfLives > 4)
+    {
+      multiLives = 4; // so we get the correct sprite at index 4 to represent more than 3 lives
+
+      // show multiple lives sprite
+      spriteReference.sprite = _liveSprites[multiLives];
+      // set multiple lives text active
+      multiLivesText.gameObject.SetActive(true);
+      // Assign amount of lives
+      multiLivesText.text = "x " + amountOfLives;
+
+    }
+    else
+    {
+      // access display image sprite and give it a new one based on currentLives
+      spriteReference.sprite = _liveSprites[amountOfLives];
+    }
+
   }
 
 }
