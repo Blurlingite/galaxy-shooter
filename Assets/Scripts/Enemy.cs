@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
+
 
 public class Enemy : MonoBehaviour
 {
@@ -27,16 +29,33 @@ public class Enemy : MonoBehaviour
 
     _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
 
-    _player1 = GameObject.Find("Player_1").GetComponent<Player>();
-    if (_player1 == null)
+    if (_gameManager.getIsCoopMode() == false)
     {
-      Debug.LogError("Player 1 is NULL");
+      _player1 = GameObject.Find("Player_1").GetComponent<Player>();
+      if (_player1 == null)
+      {
+        Debug.LogError("Player 1 is NULL");
+      }
     }
 
     // if we're in Coop mode assign a Player 2
     if (_gameManager.isCoopMode == true)
     {
-      _player2 = GameObject.Find("Player_2").GetComponent<Player>();
+
+      // try to find the players and if either of them are null, don't do anything b/c we want the game to continue if only 1 player dies
+      try
+      {
+
+        _player1 = GameObject.Find("Player_1").GetComponent<Player>();
+
+
+        _player2 = GameObject.Find("Player_2").GetComponent<Player>();
+
+      }
+      catch (NullReferenceException e)
+      {
+        Debug.Log(e);
+      }
     }
 
     _anim = GetComponent<Animator>();
@@ -62,7 +81,8 @@ public class Enemy : MonoBehaviour
 
     if (Time.time > _canFire)
     {
-      _fireRate = Random.Range(3f, 7f);
+      // The compiler gets confused on which namespace to use for Random (from using System or using UnityEngine) so specify the namespace to use before it
+      _fireRate = UnityEngine.Random.Range(3f, 7f);
       _canFire = Time.time + _fireRate;
 
       GameObject enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
@@ -90,7 +110,7 @@ public class Enemy : MonoBehaviour
       // Random.Range is a Unity thing, not a C# thing and the C# version of Random class won;t work b/c we are using the UnityEngine.
       // Random.Range() gives us a random float value between 2 numbers (min & max) that we pass in. 
       // BEWARE: When used with ints the max random generated is always 1 less than the max you pass in
-      float randomX = Random.Range(-8f, 8f);
+      float randomX = UnityEngine.Random.Range(-8f, 8f);
       transform.position = new Vector3(randomX, 7, 0);
     }
   }
@@ -162,7 +182,7 @@ public class Enemy : MonoBehaviour
         if (_player1 != null)
         {
           // 5-12 range we need to pass in 5 and 13 b/c ints don't include the max
-          int randomPoints = Random.Range(5, 13);
+          int randomPoints = UnityEngine.Random.Range(5, 13);
           // add to the player score
           // We can't use other to find the Player object b/c "other" in this if statement is the Laser (as shown by other.CompareTag("Laser"))
           _player1.AddScore(randomPoints);

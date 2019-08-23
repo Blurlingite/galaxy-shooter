@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
   private bool _isGamePaused = false;
 
   public bool isCoopMode = false;
-  // private SpawnManager _spawnManager;
   private Scene currentScene;
 
   [SerializeField]

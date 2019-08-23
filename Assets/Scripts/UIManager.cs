@@ -40,6 +40,12 @@ public class UIManager : MonoBehaviour
   [SerializeField]
   private Text multiLivesText;
 
+  [SerializeField]
+  Player player1;
+
+  [SerializeField]
+  Player player2;
+
 
   void Start()
   {
@@ -102,13 +108,26 @@ public class UIManager : MonoBehaviour
   // all code for a Game Over is in here
   void GameOverSequence()
   {
-    // notify Game Manager that the game is over so it can trigger a restart when player presses the "R" key
-    _gameManager.GameOver();
-    _gameOverText.gameObject.SetActive(true);
-    // Show restart text
-    _restartText.gameObject.SetActive(true);
+    // If we are in Single player mode 
+    if (_gameManager.getIsCoopMode() == false && player1.getLivesLeft() <= 0)
+    {
+      // notify Game Manager that the game is over so it can trigger a restart when player presses the "R" key
+      _gameManager.GameOver();
+      _gameOverText.gameObject.SetActive(true);
+      // Show restart text
+      _restartText.gameObject.SetActive(true);
 
-    StartCoroutine(GameOverFlicker());
+      StartCoroutine(GameOverFlicker());
+    }
+    else if (_gameManager.getIsCoopMode() == true && player1.getLivesLeft() < 1 && player2.getLivesLeft() < 1)
+    {
+
+      _gameManager.GameOver();
+      _gameOverText.gameObject.SetActive(true);
+      _restartText.gameObject.SetActive(true);
+
+    }
+
   }
 
   // causes the flickering Game Over effect
@@ -144,6 +163,7 @@ public class UIManager : MonoBehaviour
 
   private void displayLives(int amountOfLives, Image spriteReference)
   {
+
     if (amountOfLives < 0)
     {
       amountOfLives = 0; // prevent negative lives

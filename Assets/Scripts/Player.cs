@@ -592,4 +592,9 @@ public class Player : MonoBehaviour
     _isAnotherReflector = true;
   }
 
+  public int getLivesLeft()
+  {
+    return _lives;
+  }
+
 }
