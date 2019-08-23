@@ -126,7 +126,10 @@ public class UIManager : MonoBehaviour
       _gameOverText.gameObject.SetActive(true);
       _restartText.gameObject.SetActive(true);
 
+      StartCoroutine(GameOverFlicker());
+
     }
+
 
   }
 

@@ -12,7 +12,9 @@ public class Enemy : MonoBehaviour
   [SerializeField]
   private GameObject _laserPrefab;
   private GameManager _gameManager;
+  [SerializeField]
   private Player _player1;
+  [SerializeField]
   private Player _player2;
 
   // Start is called before the first frame update
@@ -29,6 +31,7 @@ public class Enemy : MonoBehaviour
 
     _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
 
+    // Single Player mode
     if (_gameManager.getIsCoopMode() == false)
     {
       _player1 = GameObject.Find("Player_1").GetComponent<Player>();
@@ -38,7 +41,7 @@ public class Enemy : MonoBehaviour
       }
     }
 
-    // if we're in Coop mode assign a Player 2
+    // if we're in Coop mode, assign a Player 2
     if (_gameManager.isCoopMode == true)
     {
 
@@ -47,6 +50,17 @@ public class Enemy : MonoBehaviour
       {
 
         _player1 = GameObject.Find("Player_1").GetComponent<Player>();
+
+
+
+
+      }
+      catch (NullReferenceException e)
+      {
+        Debug.Log(e);
+      }
+      try
+      {
 
 
         _player2 = GameObject.Find("Player_2").GetComponent<Player>();
@@ -179,18 +193,72 @@ public class Enemy : MonoBehaviour
         // Player p = GameObject.Find("Player").GetComponent<Player>();
 
         // Checking if the player is null here is better than doing this i the Start() method b/c Start() only gets called once when the game starts, so if the Player became null after that (by dying) we would get an error here
-        if (_player1 != null)
+
+        // 5-12 range we need to pass in 5 and 13 b/c ints don't include the max
+        int randomPoints = UnityEngine.Random.Range(5, 13);
+
+
+
+        try
         {
-          // 5-12 range we need to pass in 5 and 13 b/c ints don't include the max
-          int randomPoints = UnityEngine.Random.Range(5, 13);
-          // add to the player score
-          // We can't use other to find the Player object b/c "other" in this if statement is the Laser (as shown by other.CompareTag("Laser"))
-          _player1.AddScore(randomPoints);
+
+
+
+          if (_player1 != null && _player2 == null)
+          {
+            // add to the player score
+            // We can't use other to find the Player object b/c "other" in this if statement is the Laser (as shown by other.CompareTag("Laser"))
+
+            // Only 1 of these AddScore() lines will execute depending on which player destroyed the enemy
+            _player1.AddScore(randomPoints);
+          }
+          else if (_player1 == null && _player2 != null)
+          {
+            _player2.AddScore(randomPoints);
+          }
+          else if (_player2 != null && _player1 == null)
+          {
+            _player2.AddScore(randomPoints);
+
+          }
+          else if (_player2 == null && _player1 != null)
+          {
+            _player1.AddScore(randomPoints);
+
+          }
+          else if (_player1 != null && _player2 != null)
+          {
+            _player1.AddScore(randomPoints);
+            _player2.AddScore(randomPoints);
+
+          }
+          else
+          {
+            if (_player2 == null)
+            {
+              _player1.AddScore(randomPoints);
+
+            }
+            else if (_player1 == null)
+            {
+              _player2.AddScore(randomPoints);
+
+            }
+            else
+            {
+
+              Debug.Log("Player is null cannot add score");
+
+            }
+
+          }
         }
-        else
+        catch (NullReferenceException e)
         {
-          Debug.Log("Player is null cannot add score");
+          Debug.Log(e);
         }
+        //XXXXXXXXXXXXXXXXX
+
         // trigger the explosion animation by passing in the name of the Trigger you created (OnEnemyDeath) before you destroy the enemy. Just make sure to wait the amount of seconds the animation lasts before destroying or the animation will fail. You can do this by passing in a float for the number of seconds in the Destroy() method as a second argument
         _anim.SetTrigger("OnEnemyDeath");
         _speed = 0;
