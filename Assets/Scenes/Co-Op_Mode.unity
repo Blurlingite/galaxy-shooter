@@ -426,6 +426,12 @@ PrefabInstance:
       propertyPath: _reflectorVisualizer
       value: 
       objectReference: {fileID: 922686100}
+    - target: {fileID: 344897969184314744, guid: 092ad934edf4b40618d25e72dab55614,
+        type: 3}
+      propertyPath: _playerDmgSoundObj
+      value: 
+      objectReference: {fileID: 6905381486292062378, guid: 5eee17e3099bc4e21a7c0ca3a0c7f7c7,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 092ad934edf4b40618d25e72dab55614, type: 3}
 --- !u!4 &301755157 stripped
@@ -1021,6 +1027,12 @@ PrefabInstance:
       propertyPath: _lives
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 344897969184314744, guid: 092ad934edf4b40618d25e72dab55614,
+        type: 3}
+      propertyPath: _playerDmgSoundObj
+      value: 
+      objectReference: {fileID: 6905381486292062378, guid: 5eee17e3099bc4e21a7c0ca3a0c7f7c7,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 092ad934edf4b40618d25e72dab55614, type: 3}
 --- !u!4 &785676469 stripped

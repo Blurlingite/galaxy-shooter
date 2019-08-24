@@ -77,7 +77,8 @@ public class Player : MonoBehaviour
   // use the AudioClip variable above and use this variable to play it. Don't assign it in Unity's Inspector. Use GetComponent() to find the Audio Source component so you can null check. Also, if Unity were to crash you'd have to reassign those values in the Inspector. You can test this after assigning it by clicking the play button in Unity and checking if the Audio Source component on the Player changes from "None" to the audio clip
   private AudioSource _audioSource;
 
-  // Start is called before the first frame update, when you start the game
+  [SerializeField]
+  private GameObject _playerDmgSoundObj;
 
   // variable for isTripleShotActive. When you collect the triple shot power up from it's sprite, the sprite will change this variable to true so you can use the power up
   [SerializeField]
@@ -445,6 +446,8 @@ public class Player : MonoBehaviour
 
       return;
     }
+
+    Instantiate(_playerDmgSoundObj, transform.position, Quaternion.identity);
 
     _lives--; // reduce amount of lives by 1
     // pass in amount of lives after decrementing it above to change the sprite showing
