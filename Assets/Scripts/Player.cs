@@ -392,6 +392,8 @@ public class Player : MonoBehaviour
       // We want the laser to spawn 1.05 above the player's y position. Since position is a Vector3 we can't simply add 0.8f to transform.position. 
       // What we can do is add a new Vector3 that has a y value of 0.8f and x & z values of 0
       Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
+
+
     }
 
     // play laser audio clip. Make sure that "Play On Awake in the Audio Source component is unchecked, or else it'll play as soon as the game starts

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Laser : MonoBehaviour
 {
 
+
   [SerializeField]
   //speed the laser travels (8 meter/second)
   // It is good practice to make the variable a float and not an int, in case another developer wants to change this value to a decimal for testing purposes
@@ -19,6 +20,7 @@ public class Laser : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
+
 
     if (_isEnemyLaser == false)
     {
@@ -116,8 +118,9 @@ public class Laser : MonoBehaviour
 
     }
 
-    if (other.gameObject.CompareTag("Reflector"))
+    if (other.gameObject.CompareTag("Reflector") && _isEnemyLaser == true)
     {
+
       // enemy lasers pass through other enemies so when we reflect it back we should not treat the laser as an enemy laser
       _isEnemyLaser = false;
       _isDirectionReversed = true;
@@ -138,6 +141,11 @@ public class Laser : MonoBehaviour
   public bool getIsEnemyLaser()
   {
     return _isEnemyLaser;
+  }
+
+  public bool getIsDirectionReversed()
+  {
+    return _isDirectionReversed;
   }
 
 }
