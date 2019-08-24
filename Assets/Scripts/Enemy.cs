@@ -26,6 +26,9 @@ public class Enemy : MonoBehaviour
   private float _fireRate = 3.0f;
   private float? _canFire = -1;
 
+  // Thruster object that contains the animation of the enemy's thruster
+  private GameObject thruster;
+
   void Start()
   {
 
@@ -51,9 +54,6 @@ public class Enemy : MonoBehaviour
 
         _player1 = GameObject.Find("Player_1").GetComponent<Player>();
 
-
-
-
       }
       catch (NullReferenceException e)
       {
@@ -61,8 +61,6 @@ public class Enemy : MonoBehaviour
       }
       try
       {
-
-
         _player2 = GameObject.Find("Player_2").GetComponent<Player>();
 
       }
@@ -84,6 +82,14 @@ public class Enemy : MonoBehaviour
     if (_audioSource == null)
     {
       Debug.Log("Audio Source on Enemy is NULL");
+    }
+
+    // get the child object of this parent object
+    thruster = this.gameObject.transform.GetChild(0).gameObject;
+
+    if (thruster == null)
+    {
+      Debug.LogError("Enemy Thruster is NULL ::Enemy.cs::Start()");
     }
 
   }
@@ -154,7 +160,7 @@ public class Enemy : MonoBehaviour
         player.Damage();
 
       }
-      // trigger the explosion animation by passing in the name of the Trigger you created (OnEnemyDeath) before you destroy the enemy. Just make sure to wait the amount of seconds the animation lasts before destroying or the animation will fail. You can do this by passing in a float for the number of seconds in the Destroy() method as a second argument
+      // trigger the explosion animation by passing in the name of the Trigger you created (OnEnemyDeath) before you destroy the enemy. We created that Trigger b/c we didn't want the enemy death animation to play until the enemy was destroyed. Just make sure to wait the amount of seconds the animation lasts before destroying or the animation will fail. You can do this by passing in a float for the number of seconds in the Destroy() method as a second argument
       _anim.SetTrigger("OnEnemyDeath");
       _speed = 0; // set enemy speed to 0 so the Enemy's Collider won't hit the player while the enemy is moving while being destroyed
       _audioSource.Play();
@@ -163,6 +169,11 @@ public class Enemy : MonoBehaviour
 
       // Since we delay the destruction of the enemy to let animation and sound effect play, set to null so enemy can't fire when it's destroyed. Can only set floats to null if it has a "?" in front of it's datatype
       _canFire = null;
+
+
+      // deactivate the child when destroying this object
+      thruster.SetActive(false);
+
       Destroy(gameObject, 2.5f); // destroy this enemy object 2.5 secs after being hit
     }
 
@@ -197,12 +208,8 @@ public class Enemy : MonoBehaviour
         // 5-12 range we need to pass in 5 and 13 b/c ints don't include the max
         int randomPoints = UnityEngine.Random.Range(5, 13);
 
-
-
         try
         {
-
-
 
           if (_player1 != null && _player2 == null)
           {
@@ -257,7 +264,6 @@ public class Enemy : MonoBehaviour
         {
           Debug.Log(e);
         }
-        //XXXXXXXXXXXXXXXXX
 
         // trigger the explosion animation by passing in the name of the Trigger you created (OnEnemyDeath) before you destroy the enemy. Just make sure to wait the amount of seconds the animation lasts before destroying or the animation will fail. You can do this by passing in a float for the number of seconds in the Destroy() method as a second argument
         _anim.SetTrigger("OnEnemyDeath");
@@ -270,6 +276,8 @@ public class Enemy : MonoBehaviour
         // Since we delay the destruction of the enemy to let animation and sound effect play, set to null so enemy can't fire when it's destroyed. Can only set floats to null if it has a "?" in front of it's datatype
         _canFire = null;
         // needs a delay time or else animations and sounds won't play b/c object is instantly destroyed
+
+        thruster.SetActive(false);
         Destroy(this.gameObject, 2.5f);
       }
     }
