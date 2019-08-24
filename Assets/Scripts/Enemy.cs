@@ -155,6 +155,10 @@ public class Enemy : MonoBehaviour
       if (player != null)
       {
         player.setIsEnemyCollisionTrue();
+        int randomPoints = UnityEngine.Random.Range(5, 13);
+
+        player.AddScore(randomPoints);
+
 
         // remove 1 life from player
         player.Damage();
