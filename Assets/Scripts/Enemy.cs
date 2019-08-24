@@ -21,8 +21,7 @@ public class Enemy : MonoBehaviour
   [SerializeField]
   private Animator _anim;
 
-  private AudioSource _audioSource;
-
+  private AudioSource[] _audioSource;
   private float _fireRate = 3.0f;
   private float? _canFire = -1;
 
@@ -31,7 +30,6 @@ public class Enemy : MonoBehaviour
 
   void Start()
   {
-
     _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
 
     // Single Player mode
@@ -77,7 +75,7 @@ public class Enemy : MonoBehaviour
       Debug.Log("Animator is NULL");
     }
 
-    _audioSource = GetComponent<AudioSource>();
+    _audioSource = GetComponents<AudioSource>();
 
     if (_audioSource == null)
     {
@@ -105,6 +103,8 @@ public class Enemy : MonoBehaviour
       _fireRate = UnityEngine.Random.Range(3f, 7f);
       _canFire = Time.time + _fireRate;
 
+      // Play laser sound effect found on AudioSource #2 using index of 1 (b/c indexes start at 0)
+      _audioSource[1].Play();
       GameObject enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
 
       Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
@@ -163,7 +163,8 @@ public class Enemy : MonoBehaviour
       // trigger the explosion animation by passing in the name of the Trigger you created (OnEnemyDeath) before you destroy the enemy. We created that Trigger b/c we didn't want the enemy death animation to play until the enemy was destroyed. Just make sure to wait the amount of seconds the animation lasts before destroying or the animation will fail. You can do this by passing in a float for the number of seconds in the Destroy() method as a second argument
       _anim.SetTrigger("OnEnemyDeath");
       _speed = 0; // set enemy speed to 0 so the Enemy's Collider won't hit the player while the enemy is moving while being destroyed
-      _audioSource.Play();
+      // Play the first AudioSource's clip by using an index of 0
+      _audioSource[0].Play();
       // destroy the collider so that when bump into the enemy, only 1 explosion (the sound of the explosion)happens and to prevent player from losing more than 1 life
       Destroy(GetComponent<Collider2D>());
 
@@ -268,7 +269,7 @@ public class Enemy : MonoBehaviour
         // trigger the explosion animation by passing in the name of the Trigger you created (OnEnemyDeath) before you destroy the enemy. Just make sure to wait the amount of seconds the animation lasts before destroying or the animation will fail. You can do this by passing in a float for the number of seconds in the Destroy() method as a second argument
         _anim.SetTrigger("OnEnemyDeath");
         _speed = 0;
-        _audioSource.Play();
+        _audioSource[0].Play();
 
         // destroy the collider so that when you fire more than 1 laser at the enemy, only 1 exlposion (the sound of the explosion)happens
         Destroy(GetComponent<Collider2D>());
