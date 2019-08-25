@@ -2712,7 +2712,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce7e71cccab7b49b6bdd27ef519d9c51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 3.5
+  _speed: 5
   _speedMultiplier: 2
   _lives: 3
   _score: 0

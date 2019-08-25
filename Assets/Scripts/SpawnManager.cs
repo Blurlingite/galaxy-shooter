@@ -64,11 +64,11 @@ public class SpawnManager : MonoBehaviour
 
       // yield wait for 5 seconds
       // "WaitForSeconds" will take in the amount of seconds this function will wait before performing the next line of code. You must use the "new" keyword also
-      yield return new WaitForSeconds(5.0f);
+      yield return new WaitForSeconds(3.0f);
       // right after we yield for 5 seconds we will go back to the beginning of the while loop if there is no more code after the yield statement
     }
 
-    // WE WILL NEVER GET HERE B/C THE WHILE LOOP IS INFINITE
+
 
   }
 

@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
   // This variable controls how fast the game object will move
   // Since this is a private variable we name it starting with a "_" just so it;s easier to see that it's private.
   [SerializeField]
-  private float _speed = 3.5f;
+  private float _speed = 5.0f;
 
   // we don't want to change the speed variable above by re-assigning so we have this multipler
   [SerializeField]
