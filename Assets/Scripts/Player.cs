@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
   [SerializeField]
   // amount of lives the player has
   // We don't want anything (other than the player) to change this value so we added a method below called "Damage"
-  private int _lives = 3;
+  private int _lives = 6;
 
   [SerializeField]
   // holds the player's score
@@ -139,7 +139,9 @@ public class Player : MonoBehaviour
 
     if (_gameManager.isCoopMode == false)
     {
-
+      _lives = 6; // 6 lives for single player mode
+      // start the display to be 6 lives
+      _uiManager.UpdateLives(_lives, gameObject.name);
       // take the current position = new position(0,0,0) (x,y,z)
       // How we access the Player object's position? Unity is  component based so in the Unity editor, click on the Player object and you will see that we need to access the "Transform" section (component) to get the Player object's position. Inside Transform, you will see "Position" so we access the position using transform.position
       // Vector3 defines positioning of game objects. We are assigning the position (transform.position) a new position in (x,y,z) format
@@ -156,7 +158,7 @@ public class Player : MonoBehaviour
       {
         transform.position = new Vector3(4.48f, -1.77f, 0f);
       }
-
+      _lives = 3; // 3 lives for Coop mode
     }
 
     // We must find the Spawn Manager using this script b/c when the game starts, the Player object will be rendered immediately

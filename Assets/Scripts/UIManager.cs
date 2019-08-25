@@ -180,7 +180,7 @@ public class UIManager : MonoBehaviour
 
     // Sprite Assignment
 
-    if (amountOfLives > 4)
+    if (amountOfLives >= 4)
     {
       multiLives = 4; // so we get the correct sprite at index 4 to represent more than 3 lives
 
@@ -194,6 +194,8 @@ public class UIManager : MonoBehaviour
     }
     else
     {
+      multiLivesText.text = " ";
+
       // access display image sprite and give it a new one based on currentLives
       spriteReference.sprite = _liveSprites[amountOfLives];
     }

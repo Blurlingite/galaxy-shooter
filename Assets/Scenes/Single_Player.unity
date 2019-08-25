@@ -1168,7 +1168,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 80fba5ece7697c44eacc036539c1b552, type: 3}
   - {fileID: 21300000, guid: 482c8e4c0346b704aa5f1760c3c989d5, type: 3}
   - {fileID: 21300000, guid: 9fe6f40efddf0b64fb68a3382b14a4db, type: 3}
-  - {fileID: 21300000, guid: 80fba5ece7697c44eacc036539c1b552, type: 3}
+  - {fileID: 21300000, guid: 31570ad42a4e7481caa348aac717d37b, type: 3}
   _gameOverText: {fileID: 579060490}
   _restartText: {fileID: 1522312351}
   multiLivesText: {fileID: 1702980869}
@@ -1379,7 +1379,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 9fe6f40efddf0b64fb68a3382b14a4db, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 31570ad42a4e7481caa348aac717d37b, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -2714,7 +2714,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 5
   _speedMultiplier: 2
-  _lives: 3
+  _lives: 6
   _score: 0
   _uiManager: {fileID: 0}
   _laserPrefab: {fileID: 1011204617904037556, guid: 6f3b6e254e3334d2abd108c134fc1218,
