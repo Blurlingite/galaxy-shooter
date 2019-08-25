@@ -2721,6 +2721,8 @@ MonoBehaviour:
     type: 3}
   _tripleShotPrefab: {fileID: 6986775043288846465, guid: 1599bd669b91346c0bed23dad74d1dbc,
     type: 3}
+  _explosionPrefab: {fileID: 8067894207419996961, guid: ccf8a4f6ea54f4b4da3b37a2a14bf177,
+    type: 3}
   _fireRate: 0.15
   shieldVisualizer: {fileID: 598027052}
   _reflectorVisualizer: {fileID: 805468159}

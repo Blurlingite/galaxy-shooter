@@ -27,7 +27,11 @@ public class Explosion : MonoBehaviour
 
 
     // destroy explosion after 3 secs so it doesn't clutter up the Hierarchy in Unity b/c it is still there even if the asteroid is destroyed and even after the animation is done
-    Destroy(this.gameObject, 3f);
+    if (!this.gameObject.CompareTag("Player"))
+    {
+      Destroy(this.gameObject, 3f);
+
+    }
   }
 
 

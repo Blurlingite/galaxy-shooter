@@ -50,6 +50,9 @@ public class Player : MonoBehaviour
   [SerializeField]
   private GameObject _tripleShotPrefab;
 
+  [SerializeField]
+  private GameObject _explosionPrefab;
+
   // This variable determines how much time must pass before you can use the laser again (you shouldn't be able to spam it). In this case its 0.5 seconds
 
   [SerializeField]
@@ -468,13 +471,16 @@ public class Player : MonoBehaviour
 
     _uiManager.UpdateLives(_lives, gameObject.name);
 
-    // checked if player died and if yes, stop the Spawn Manager &destroy the player
+    // checked if player died and if yes, stop the Spawn Manager & destroy the player
     if (_lives < 1)
     {
       // Communicate with Spawn Manager to tell it to stop spawning when the Player object is destroyed (when the player dies)
       _spawnManager.onPlayerDeath();
 
       _uiManager.CheckForBestScore(_score);
+
+      // Instantiate explosion object to play explosion animationa and sound
+      Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
       // Destroys the player (and this C# script, but the Player & script will regenerate on a new game)
       Destroy(this.gameObject);
     }
