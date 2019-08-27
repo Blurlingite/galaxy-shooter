@@ -33,11 +33,7 @@ public class SpawnManager : MonoBehaviour
     StartCoroutine(SpawnEnemyRoutine());
     StartCoroutine(SpawnPowerupRoutine());
   }
-  // Update is called once per frame
-  void Update()
-  {
 
-  }
 
   // spawn gameobjects every 5 secs
   // Create a coroutine of type IEnumerator -- Yield events (we get to use the "yield" keyword, which allows us to wait for the amount of seconds you pass in)
@@ -79,7 +75,20 @@ public class SpawnManager : MonoBehaviour
     while (_stopSpawning == false)
     {
       Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
-      int randomPowerUp = Random.Range(0, 4);
+      int randomPowerUp;
+      int reflectorSpawn = Random.Range(1, 11); // 1-10
+      // give reflector a 33% chance to spawn
+      if (reflectorSpawn == 1 || reflectorSpawn == 2 || reflectorSpawn == 3)
+      {
+        randomPowerUp = 3;
+      }
+      else
+      {
+        randomPowerUp = Random.Range(0, 3); // 0-2
+
+      }
+
+
       Instantiate(powerups[randomPowerUp], posToSpawn, Quaternion.identity);
       yield return new WaitForSeconds(Random.Range(3, 8));
 
