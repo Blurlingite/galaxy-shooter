@@ -442,6 +442,9 @@ public class Player : MonoBehaviour
     // deactivate shields b/c they've been hit and then return form the function (to exit the void function)
     if (isShieldsActive == true)
     {
+      // Get the Shields child object in player and then play the sound effect on the audio source
+      AudioSource shieldSound = this.gameObject.transform.Find("Shields").gameObject.GetComponent<AudioSource>();
+      shieldSound.Play();
       // turn off shield animation that follows the player
 
       StartCoroutine(DeactivateShields());
@@ -556,7 +559,6 @@ public class Player : MonoBehaviour
   // used to keep shields up long enough to absorb the enemy's double laser (2 lasers at once) so player won't lose any lives while shields are active
   private IEnumerator DeactivateShields()
   {
-
     yield return new WaitForSeconds(0.2f);
     shieldVisualizer.SetActive(false);
     isShieldsActive = false;
