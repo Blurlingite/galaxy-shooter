@@ -53,8 +53,7 @@ public class Player : MonoBehaviour
   [SerializeField]
   private GameObject _explosionPrefab;
 
-  // This variable determines how much time must pass before you can use the laser again (you shouldn't be able to spam it). In this case its 0.5 seconds
-
+  // This variable determines how much time must pass before you can use the laser again (you shouldn't be able to spam it). In this case its 0.15 seconds
   [SerializeField]
   private float _fireRate = 0.15f;
   // We need another varibale to check againt _fireRate so we know that 0.15 seconds have actually passed
